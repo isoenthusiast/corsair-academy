@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import GenerateTrialsButton from "@/components/GenerateTrialsButton";
 
 export default async function VoyageEditorPage({ params }: { params: Promise<{ id: string }> }) {
     const session = await auth();
@@ -57,6 +58,7 @@ export default async function VoyageEditorPage({ params }: { params: Promise<{ i
                             </div>
                         ))}
                     </div>
+                    <GenerateTrialsButton voyageId={voyage.id} />
                 </div>
             </main>
         </div>

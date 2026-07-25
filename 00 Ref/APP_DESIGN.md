@@ -1,6 +1,6 @@
 # Corsair Academy — Technical Design & Architecture
 
-**Last Updated:** July 26, 2026 (v2.3.0 — Student Impersonation)
+**Last Updated:** July 26, 2026 (v2.4.0 — AI Trial Generation)
 **Code Name:** "Corsair Academy"
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3
 
@@ -224,6 +224,16 @@
 | `/api/admin/settings` | POST | Update system settings (app name, maintenance mode, features) |
 | `/api/admin/templates/create` | POST | Create voyage bundle template |
 | `/api/admin/templates/apply` | POST | Apply template to class (copy voyages) |
+
+### AI API — Trial Generation (B1)
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/voyages/[id]/generate-trials` | POST | Generate 3-5 trials via DeepSeek v4-pro, save to DB |
+
+**How it works:** Sends a structured prompt to DeepSeek API with voyage context (title, description, objectives, subject, difficulty, existing questions). System prompt instructs DeepSeek to return JSON array of trial objects with pirate theming, mixed types, and age-appropriate language. Response is parsed, validated, and saved to the Trial table. UI component `GenerateTrialsButton` handles count selection, loading state, and success/error feedback.
+
+**DeepSeek Client** (`src/lib/deepseek.ts`): OpenAI-compatible chat completions wrapper. Uses `DEEPSEEK_API_KEY` + `DEEPSEEK_MODEL_PRO` from env. Handles error responses, token limits, and temperature configuration.
 
 ## 5. Auth Architecture
 
