@@ -1,5 +1,6 @@
+# Project root — design & docs only. App is in corsair-app/ (separate repo)
+corsair-app/
+.env
 node_modules/
 .next/
-.env
 *.tsbuildinfo
-next-env.d.ts
