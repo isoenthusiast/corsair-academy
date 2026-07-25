@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  username      String    @unique
+  passwordHash  String
+  role          Role      @default(Learner)
+  avatarUrl     String?
+  age           Int?
+  createdAt     DateTime  @default(now())
+
+  progress      UserQuestProgress[]
+  achievements  UserAchievement[]
+  pointLog      PointTransaction[]
+  streaks       Streak[]
+  powerUps      PowerUp[]
+  attempts      ChallengeAttempt[]
+}
+
+model World {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  icon        String
+  description String?
+  color       String?
+  sortOrder   Int       @default(0)
+  quests      Quest[]
+}
+
+model Quest {
+  id               String    @id @default(cuid())
+  title            String
+  description      String?
+  worldId          String
+  sortOrder        Int       @default(0)
+  difficulty       Int       @default(1)
+  requiredQuestId  String?
+  bossLevel        Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+
+  world            World     @relation(fields: [worldId], references: [id])
+  challenges       Challenge[]
+  prerequisite     Quest?    @relation("QuestPrerequisite", fields: [requiredQuestId], references: [id])
+  nextQuests       Quest[]   @relation("QuestPrerequisite")
+  progress         UserQuestProgress[]
+
+  @@index([worldId])
+}
+
+model Challenge {
+  id          String         @id @default(cuid())
+  questId     String
+  type        ChallengeType
+  question    String
+  options     Json?
+  answer      String
+  explanation String?
+  hint        String?
+  points      Int            @default(10)
+  difficulty  Int            @default(1)
+  aiGenerated Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+
+  quest       Quest          @relation(fields: [questId], references: [id])
+  attempts    ChallengeAttempt[]
+
+  @@index([questId])
+}
+
+model ChallengeAttempt {
+  id          String    @id @default(cuid())
+  challengeId String
+  userId      String
+  answer      String
+  correct     Boolean
+  timeSpent   Int?
+  stars       Int       @default(0)
+  hintsUsed   Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([challengeId])
+}
+
+model UserQuestProgress {
+  id                   String      @id @default(cuid())
+  userId               String
+  questId              String
+  status               QuestStatus @default(Locked)
+  stars                Int         @default(0)
+  challengesCompleted  Int         @default(0)
+  completedAt          DateTime?
+
+  user                 User        @relation(fields: [userId], references: [id])
+  quest                Quest       @relation(fields: [questId], references: [id])
+
+  @@unique([userId, questId])
+}
+
+model PointTransaction {
+  id          String    @id @default(cuid())
+  userId      String
+  points      Int
+  reason      String
+  sourceId    String?
+  multiplier  Float     @default(1.0)
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model Achievement {
+  id          String          @id @default(cuid())
+  name        String
+  description String
+  icon        String
+  type        AchievementType
+  threshold   Int?
+  rarity      BadgeRarity     @default(Common)
+
+  users       UserAchievement[]
+}
+
+model UserAchievement {
+  id            String      @id @default(cuid())
+  userId        String
+  achievementId String
+  earnedAt      DateTime    @default(now())
+
+  user          User        @relation(fields: [userId], references: [id])
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+
+  @@unique([userId, achievementId])
+}
+
+model Streak {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  currentStreak     Int       @default(0)
+  longestStreak     Int       @default(0)
+  lastActivityDate  DateTime?
+  streakProtection  Int       @default(0)
+
+  user              User      @relation(fields: [userId], references: [id])
+}
+
+model PowerUp {
+  id        String       @id @default(cuid())
+  userId    String
+  type      PowerUpType
+  quantity  Int          @default(0)
+
+  user      User         @relation(fields: [userId], references: [id])
+
+  @@unique([userId, type])
+}
+
+enum Role           { Parent, Learner }
+enum ChallengeType  { multi_choice, fill_blank, puzzle, open_ended }
+enum QuestStatus    { Locked, Available, InProgress, Completed, Mastered }
+enum AchievementType { streak, mastery, speed, exploration, social }
+enum BadgeRarity    { Common, Uncommon, Rare, Epic, Legendary }
+enum PowerUpType    { hint, skip, double_xp, freeze_streak }

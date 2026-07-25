@@ -1,0 +1,33 @@
+{
+  "name": "questlab",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3200",
+    "build": "next build",
+    "start": "next start",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:generate": "prisma generate",
+    "seed": "npx tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "next": "^16.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "next-auth": "^5.0.0-beta",
+    "@prisma/client": "^7.8.0",
+    "bcryptjs": "^2.4.3",
+    "tailwindcss": "^4.0.0",
+    "pdf-parse": "^2.4.0",
+    "mammoth": "^1.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/bcryptjs": "^2.4.0",
+    "typescript": "^5.7.0",
+    "prisma": "^7.8.0",
+    "tsx": "^4.0.0"
+  }
+}

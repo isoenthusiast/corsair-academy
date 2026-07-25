@@ -1,0 +1,7 @@
+{
+    "[prisma]": {
+        "editor.defaultFormatter": "Prisma.prisma"
+    },
+    "editor.formatOnSave": true,
+    "typescript.preferences.importModuleSpecifier": "non-relative"
+}
