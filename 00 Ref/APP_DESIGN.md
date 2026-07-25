@@ -1,8 +1,10 @@
 # Corsair Academy — Technical Design & Architecture
 
-**Last Updated:** July 25, 2026 (v2.0.0 — Pirate Overhaul)
+**Last Updated:** July 25, 2026 (v2.1.0 — Multi-User + Admin Panel)
 **Code Name:** "Corsair Academy"
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3
+
+**Repo:** https://github.com/isoenthusiast/corsair-academy
 
 **Related Documents:**
 
@@ -19,6 +21,7 @@
 - `TEST_PLAN_CURRICULUM.md` — Curriculum tests
 - `TEST_PLAN_ADMIN.md` — Admin feature tests
 - `TEST_PLAN_AI.md` — AI feature tests
+- `TEST_PLAN_PHASE2.md` — Phase 2 admin tests
 - `CONTEXT.md` — Original design philosophy (pre-pirate)
 
 ---
