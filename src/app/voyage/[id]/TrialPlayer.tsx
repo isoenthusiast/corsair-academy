@@ -15,14 +15,32 @@ export function TrialPlayer({ voyage, progress, isCompleted, userId }: { voyage:
     const [correct, setCorrect] = useState(false); const [skulls, setSkulls] = useState(0);
     const [loading, setLoading] = useState(false); const [done, setDone] = useState(isCompleted);
     const [startTime] = useState(Date.now()); const [hints, setHints] = useState(0);
+    const [aiFeedback, setAiFeedback] = useState("");
     const t = voyage.trials[idx]; const last = idx === voyage.trials.length - 1;
 
     async function submit() {
         if (loading) return; setLoading(true);
         const a = t.type === "multi_choice" ? selected : answer.trim();
-        const ok = t.type === "open_ended" ? true : a.toLowerCase() === t.answer.toLowerCase();
-        let s = 1; if (ok) { if (!showHint && hints === 0) s = 3; else if (!showHint && hints <= 1) s = 2; }
-        setCorrect(ok); setSkulls(s); setShowResult(true);
+
+        let ok: boolean; let s: number; let fb = "";
+        if (t.type === "open_ended") {
+            // AI grading for open-ended trials
+            try {
+                const res = await fetch("/api/trials/grade", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ trialQuestion: t.question, expectedAnswer: t.answer, studentAnswer: a }) });
+                const data = await res.json();
+                ok = data.correct ?? true;
+                s = data.skulls ?? 2;
+                fb = data.feedback || "";
+            } catch {
+                ok = true; s = 2; fb = "";
+            }
+        } else {
+            ok = a.toLowerCase() === t.answer.toLowerCase();
+            if (ok) { if (!showHint && hints === 0) s = 3; else if (!showHint && hints <= 1) s = 2; else s = 1; }
+            else s = 1;
+        }
+
+        setCorrect(ok); setSkulls(s); setAiFeedback(fb); setShowResult(true);
         await fetch("/api/trials/attempt", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ trialId: t.id, userId, answer: a, correct: ok, timeSpent: Math.floor((Date.now() - startTime) / 1000), skulls: s, hintsUsed: showHint ? hints + 1 : hints }) });
         setLoading(false);
     }
@@ -73,6 +91,7 @@ export function TrialPlayer({ voyage, progress, isCompleted, userId }: { voyage:
                         <div className="text-center mb-4"><div className="text-5xl mb-2">{correct ? "🎉" : "💪"}</div><h4 className={`text-xl font-bold ${correct ? "text-emerald-600" : "text-amber-600"}`}>{correct ? "Bullseye!" : "Close, sailor!"}</h4>{!correct && <p className="text-amber-700 mt-1">Answer: <span className="font-bold text-red-700">{t.answer}</span></p>}</div>
                         <div className="flex justify-center gap-1 mb-4">{[1, 2, 3].map(s => <span key={s} className={`skull-star ${s <= skulls ? "earned" : "empty"}`}>☠️</span>)}</div>
                         {t.explanation && <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 mb-4"><p className="text-sm text-amber-900">{t.explanation}</p></div>}
+                        {aiFeedback && <div className="p-4 rounded-xl bg-purple-50 border border-purple-200 mb-4"><p className="text-xs text-purple-600 mb-1">🧠 AI Feedback:</p><p className="text-sm text-purple-900">{aiFeedback}</p></div>}
                         <div className="text-center mb-6"><span className="text-sm text-purple-600 font-bold">+{t.points * skulls} XP · +{Math.floor(t.points * skulls / 2)} 🪙</span></div>
                         <button onClick={next} className="btn-pirate w-full text-lg">{last ? voyage.captainGauntlet ? "Claim the Treasure! 👑" : "Complete Voyage! 🎉" : "Next Trial →"}</button>
                     </div>

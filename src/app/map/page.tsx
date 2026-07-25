@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import ImpersonationBanner from "@/components/ImpersonationBanner";
+import RecommendedVoyage from "@/components/RecommendedVoyage";
 
 const RANKS = ["Deckhand", "Swabbie", "Gunner", "Boatswain", "Quartermaster", "First Mate", "Captain", "Commodore", "Sea Lord"];
 const RANK_XP = [0, 100, 300, 600, 1000, 1500, 2500, 4000, 6000];
@@ -149,6 +150,9 @@ export default async function MapPage() {
                         ⛵ Ship Upgrades
                     </Link>
                 </div>
+
+                {/* AI Personalization */}
+                <RecommendedVoyage />
 
                 {/* Seas */}
                 <h2 className="text-2xl mb-6" style={{ color: "#F7C948" }}>🗺️ Chart Your Course</h2>

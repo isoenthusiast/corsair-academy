@@ -42,14 +42,19 @@
 - [ ] **C5.** First successful `railway up` deploy
 - [ ] **C6.** Verify all pages on production URL
 
-## Phase 7 — AI Features- [x] **B1.** AI Trial Generation — DeepSeek v4-pro, GenerateTrialsButton, 3-5 trials at a time>
+## Phase 7 — AI Features- [x] **B1.** AI Trial Generation — DeepSeek v4-pro, GenerateTrialsButton, 3-5 trials at a time
+- [x] **B3.** AI Grading — DeepSeek v4-flash grades open-ended, fallback on error
+- [x] **B2.** AI Tutor Chat — "Captain Corsair" persona, floating 🦜 chat panel
+- [x] **B4.** Adaptive Difficulty — ±0.5 adjustments based on last 3-5 attempts
+- [x] **B5.** AI Personalization — RecommendedVoyage card + per-sea progress bars>
+>
 > Largest scope. Trial gen first (content), then grading, then tutor, then smart features.
 
 - [x] **B1.** AI Trial Generation — Auto-generate trials via DeepSeek v4-pro
-- [ ] **B3.** AI Grading — Auto-grade open-ended trial responses
-- [ ] **B2.** AI Tutor Chat — Real-time tutoring sidebar with DeepSeek v4-flash
-- [ ] **B4.** Adaptive Difficulty — Adjust difficulty based on performance history
-- [ ] **B5.** AI Personalization — Personalized learning paths & recommendations
+- [x] **B3.** AI Grading — Auto-grade open-ended trial responses
+- [x] **B2.** AI Tutor Chat — Real-time tutoring sidebar with DeepSeek v4-flash
+- [x] **B4.** Adaptive Difficulty — Adjust difficulty based on performance history
+- [x] **B5.** AI Personalization — Personalized learning paths & recommendations
 
 ---
 

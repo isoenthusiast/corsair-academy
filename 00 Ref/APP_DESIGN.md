@@ -1,6 +1,6 @@
 # Corsair Academy — Technical Design & Architecture
 
-**Last Updated:** July 26, 2026 (v2.4.0 — AI Trial Generation)
+**Last Updated:** July 26, 2026 (v2.5.0 — AI Grading, Tutor, Adaptive, Personalization)
 **Code Name:** "Corsair Academy"
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3
 
@@ -234,6 +234,38 @@
 **How it works:** Sends a structured prompt to DeepSeek API with voyage context (title, description, objectives, subject, difficulty, existing questions). System prompt instructs DeepSeek to return JSON array of trial objects with pirate theming, mixed types, and age-appropriate language. Response is parsed, validated, and saved to the Trial table. UI component `GenerateTrialsButton` handles count selection, loading state, and success/error feedback.
 
 **DeepSeek Client** (`src/lib/deepseek.ts`): OpenAI-compatible chat completions wrapper. Uses `DEEPSEEK_API_KEY` + `DEEPSEEK_MODEL_PRO` from env. Handles error responses, token limits, and temperature configuration.
+
+### AI API — Grading (B3)
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/trials/grade` | POST | AI-grade open-ended answer via DeepSeek v4-flash, returns correct/skulls/feedback |
+
+**How it works:** Takes `trialQuestion`, `expectedAnswer`, `studentAnswer`. Empty answers handled locally. System prompt instructs v4-flash to evaluate with encouraging pirate-themed feedback. Returns `{correct, skulls: 1-3, feedback}`. TrialPlayer calls this for `open_ended` trials instead of local comparison. Fallback on API error returns generic positive feedback.
+
+### AI API — Tutor Chat (B2)
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/tutor/chat` | POST | Conversational AI tutor "Captain Corsair" via DeepSeek v4-flash |
+
+**How it works:** Takes `message` + optional `context` (voyage title, sea, trial index). System prompt defines pirate tutor persona with rules (short, encouraging, hints not answers). `TutorChat` component: floating 🦜 button → slide-out chat panel with message history. Integrated into voyage page.
+
+### AI API — Adaptive Difficulty (B4)
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/adaptive/check` | POST | Analyze recent performance, adjust voyage difficulty ±0.5 |
+
+**Logic:** Last 3 attempts all 3-skull → +0.5 difficulty (max 5). Last 5 attempts all 1-skull → -0.5 (min 1). Called non-blocking after each trial attempt. Returns `{adjusted, oldDifficulty, newDifficulty, reason}`.
+
+### AI API — Personalization (B5)
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/personalize/recommend` | GET | Recommend next voyage based on sea progress + performance |
+
+**Logic:** Finds sea with lowest completion %, recommends first incomplete voyage matching difficulty. `RecommendedVoyage` component on map page shows recommendation card + per-sea progress bars. Uses average skulls from last 10 attempts to determine appropriate difficulty.
 
 ## 5. Auth Architecture
 

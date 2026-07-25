@@ -2,6 +2,14 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { TrialPlayer } from "./TrialPlayer";
+import TutorChat from "@/components/TutorChat";
+
+const SEA_SUBJECTS: Record<string, string> = {
+    "Sea of Cunning": "English/Language Arts",
+    "Sea of Whispers": "Mandarin Chinese",
+    "Sea of Navigation": "Mathematics",
+    "Sea of Brews": "Science",
+};
 
 export default async function VoyagePage({ params }: { params: Promise<{ id: string }> }) {
     const session = await auth();
@@ -32,6 +40,14 @@ export default async function VoyagePage({ params }: { params: Promise<{ id: str
                 <div className="h-1 bg-abyssal"><div className="h-full bg-gradient-to-r from-amber-600 to-yellow-500 transition-all duration-500" style={{ width: `${progress ? (progress.trialsCompleted / voyage.trials.length) * 100 : 0}%` }} /></div>
             </header>
             <TrialPlayer voyage={voyage} progress={progress} isCompleted={done} userId={session.user.id} />
+            <TutorChat context={{
+                voyageTitle: voyage.title,
+                seaName: voyage.sea.name,
+                subject: SEA_SUBJECTS[voyage.sea.name] || "General",
+                trialIndex: progress?.trialsCompleted || 0,
+                totalTrials: voyage.trials.length,
+                trialType: voyage.trials[progress?.trialsCompleted || 0]?.type || "unknown",
+            }} />
         </div>
     );
 }
