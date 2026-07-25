@@ -42,6 +42,15 @@ export default async function MapPage() {
     const user = await prisma.user.findUnique({ where: { id: session.user.id } });
     const { rank, nextRank, progress: rankProgress } = getRank(totalXP);
 
+    // Active system announcements (not expired, matching user role or all-roles)
+    const now = new Date();
+    const allAnnouncements = await prisma.systemAnnouncement.findMany({
+        where: { OR: [{ expiresAt: null }, { expiresAt: { gte: now } }] },
+        orderBy: { createdAt: "desc" },
+        take: 10,
+    });
+    const announcements = allAnnouncements.filter(a => !a.targetRole || a.targetRole === session.user.role).slice(0, 3);
+
     const seaColors: Record<string, string> = {
         "Sea of Cunning": "#4F46E5", "Sea of Whispers": "#DC2626",
         "Sea of Navigation": "#059669", "Sea of Brews": "#D97706",
@@ -74,6 +83,17 @@ export default async function MapPage() {
                     </div>
                 </div>
             </header>
+
+            {announcements.length > 0 && (
+                <div className="max-w-6xl mx-auto px-4 pt-4 space-y-2">
+                    {announcements.map(a => (
+                        <div key={a.id} className="p-3 rounded-lg bg-amber-900/20 border border-amber-700/40 text-center animate-sail">
+                            <strong className="text-sm" style={{ color: "#F7C948" }}>📢 {a.title}</strong>
+                            <span className="text-sm text-amber-300 ml-2">{a.body}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
 
             <main className="max-w-6xl mx-auto px-4 py-8">
                 {/* Wanted Poster Banner */}
