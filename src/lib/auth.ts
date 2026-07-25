@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { authConfig } from "@/lib/auth.config";
 
@@ -10,7 +11,16 @@ declare module "next-auth" {
             id: string;
             role: string;
             name: string;
+            impersonatedBy?: string;
         } & DefaultSession["user"];
+    }
+}
+
+declare module "next-auth/jwt" {
+    interface JWT {
+        id: string;
+        role: string;
+        impersonatedBy?: string;
     }
 }
 
@@ -28,10 +38,33 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             async authorize(credentials) {
                 if (!credentials?.username || !credentials?.password) return null;
 
+                // ── Impersonation: special username with signed token ──
+                if (credentials.username === "_impersonate_") {
+                    const token = credentials.password as string;
+                    const [targetUserId, expiry, signature] = token.split(".");
+                    if (Date.now() > parseInt(expiry)) return null;
+
+                    const expectedSig = crypto
+                        .createHmac("sha256", process.env.AUTH_SECRET!)
+                        .update(`${targetUserId}.${expiry}`)
+                        .digest("hex");
+                    if (signature !== expectedSig) return null;
+
+                    const target = await prisma.user.findUnique({ where: { id: targetUserId } });
+                    if (!target || target.role === "Admin") return null;
+
+                    return {
+                        id: target.id,
+                        name: target.name,
+                        role: target.role,
+                        impersonatedBy: "admin",
+                    };
+                }
+
+                // ── Normal authentication ──
                 const user = await prisma.user.findUnique({
                     where: { username: credentials.username as string },
                 });
-
                 if (!user) return null;
 
                 const valid = await bcrypt.compare(

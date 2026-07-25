@@ -24,7 +24,7 @@ export default async function AnnouncementsPage() {
                     <form action="/api/admin/announcements/create" method="POST" className="space-y-3">
                         <div className="grid grid-cols-3 gap-3">
                             <div className="col-span-2"><input name="title" placeholder="Title" required className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white text-sm" /></div>
-                            <div><select name="targetRole" className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white text-sm"><option value="">All Roles</option>{["Student","Teacher","Parent"].map(r=><option key={r} value={r}>{r}</option>)}</select></div>
+                            <div><select name="targetRole" className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white text-sm"><option value="">All Roles</option>{["Student", "Teacher", "Parent"].map(r => <option key={r} value={r}>{r}</option>)}</select></div>
                         </div>
                         <textarea name="body" placeholder="Message body..." required rows={3} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white text-sm" />
                         <div className="flex gap-3 items-end">

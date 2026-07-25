@@ -1,15 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+    // Auto-submit impersonation token
+    useEffect(() => {
+        const impersonateToken = searchParams.get("impersonate");
+        if (impersonateToken) {
+            setLoading(true);
+            signIn("credentials", {
+                username: "_impersonate_",
+                password: impersonateToken,
+                redirect: false,
+            }).then(result => {
+                if (result?.error) {
+                    setError("Impersonation link expired. Please try again.");
+                    setLoading(false);
+                } else {
+                    router.push("/map");
+                    router.refresh();
+                }
+            });
+        }
+    }, [searchParams, router]);
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();

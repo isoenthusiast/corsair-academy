@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     let options = undefined;
-    if (optionsRaw) { try { options = JSON.parse(optionsRaw); } catch {} }
+    if (optionsRaw) { try { options = JSON.parse(optionsRaw); } catch { } }
 
     await prisma.trial.update({ where: { id: trialId }, data: { type: type as any, question, options, answer, explanation, hint, points, difficulty } });
     redirect(`/admin/voyages/${voyageId}`);

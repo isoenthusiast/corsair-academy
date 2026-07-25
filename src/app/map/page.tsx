@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import ImpersonationBanner from "@/components/ImpersonationBanner";
 
 const RANKS = ["Deckhand", "Swabbie", "Gunner", "Boatswain", "Quartermaster", "First Mate", "Captain", "Commodore", "Sea Lord"];
 const RANK_XP = [0, 100, 300, 600, 1000, 1500, 2500, 4000, 6000];
@@ -83,6 +84,8 @@ export default async function MapPage() {
                     </div>
                 </div>
             </header>
+
+            {session.user.impersonatedBy && <ImpersonationBanner studentName={session.user.name} />}
 
             {announcements.length > 0 && (
                 <div className="max-w-6xl mx-auto px-4 pt-4 space-y-2">

@@ -5,8 +5,9 @@ export const authConfig: NextAuthConfig = {
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                token.id = user.id;
+                token.id = user.id as string;
                 token.role = (user as any).role;
+                token.impersonatedBy = (user as any).impersonatedBy;
             }
             return token;
         },
@@ -14,6 +15,7 @@ export const authConfig: NextAuthConfig = {
             if (session.user) {
                 session.user.id = token.id as string;
                 session.user.role = token.role as string;
+                session.user.impersonatedBy = token.impersonatedBy as string | undefined;
             }
             return session;
         },

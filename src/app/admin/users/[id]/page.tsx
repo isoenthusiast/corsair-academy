@@ -43,6 +43,14 @@ export default async function UserEditPage({ params }: { params: Promise<{ id: s
                             {user.deletedAt && <button formAction="/api/admin/users/restore" className="px-4 py-2 rounded-lg bg-emerald-900/30 border border-emerald-700 text-emerald-400 text-sm">Restore</button>}
                         </div>
                     </form>
+                    {user.role !== "Admin" && (
+                        <form action="/api/admin/impersonate" method="POST" className="mt-4 pt-4 border-t border-amber-900/20">
+                            <input type="hidden" name="userId" value={user.id} />
+                            <button type="submit" className="px-4 py-2 rounded-lg bg-amber-900/30 border border-amber-600/50 text-amber-400 text-sm hover:bg-amber-900/50 w-full">
+                                🏴 Login as {user.name}
+                            </button>
+                        </form>
+                    )}
                     <div className="mt-4 p-3 rounded-lg bg-abyssal/50 text-xs text-amber-600">
                         Created: {new Date(user.createdAt).toLocaleString()}<br />
                         {user.deletedAt && <>Deleted: {new Date(user.deletedAt).toLocaleString()}<br /></>}

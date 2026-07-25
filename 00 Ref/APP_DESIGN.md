@@ -1,6 +1,6 @@
 # Corsair Academy — Technical Design & Architecture
 
-**Last Updated:** July 26, 2026 (v2.2.0 — Admin Polish + Invites + Announcements)
+**Last Updated:** July 26, 2026 (v2.3.0 — Student Impersonation)
 **Code Name:** "Corsair Academy"
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3
 
@@ -187,6 +187,15 @@
 | `/api/admin/invites/create` | POST | Generate invite link — crypto.randomUUID token, expiry |
 | `/api/admin/invites/revoke` | POST | Revoke unused invite link |
 
+### Admin API — Impersonation
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/impersonate` | POST | Create signed HMAC token, clear admin session, redirect to login with token |
+| `/api/admin/impersonate/stop` | POST | Sign out impersonated session, return to login page |
+
+**How it works:** Admin clicks "🏴 Login as [name]" → API generates `HMAC(userId.expiry)` signed with AUTH_SECRET → clears auth cookie → redirects to `/?impersonate=<token>`. Login page detects param, calls `signIn("credentials", { username: "_impersonate_", password: token })`. `authorize()` verifies HMAC, returns target user's identity with `impersonatedBy: "admin"`. JWT callback persists `impersonatedBy` → session callback exposes it → `ImpersonationBanner` renders "Return to Admiral" button on all pages.
+
 ### Admin API — Economy
 
 | Route | Method | Purpose |
@@ -221,7 +230,8 @@
 - **Middleware** (`src/middleware.ts`): NextAuth v5 `auth()` with `auth.config.ts` (no Prisma, Edge-safe)
 - **Auth config split**: `auth.config.ts` (JWT callbacks only) vs `auth.ts` (full: Prisma + Credentials provider)
 - **Auth route** must use `runtime = "nodejs"` — Prisma 7 generates code with `node:path` etc.
-- **Session**: JWT stores `id`, `role`, `name`
+- **Session**: JWT stores `id`, `role`, `name`, `impersonatedBy` (optional — set when admin impersonates)
+- **Impersonation**: Admin generates HMAC-signed token → login page auto-submits to `_impersonate_` credentials → authorize verifies HMAC → JWT includes `impersonatedBy` field → `ImpersonationBanner` shown on all pages → "Return to Admiral" clears session
 
 ## 6. Pirate Rank System
 
