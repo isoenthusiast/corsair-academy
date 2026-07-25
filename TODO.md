@@ -8,8 +8,8 @@
 > Quick wins: fill remaining UI gaps. No dependencies between tasks.
 
 - [x] **A1.** `/admin/users/new` — Create new user form (linked from users list)
-- [ ] **A3.** System Announcements — Create/manage system-wide announcements UI
-- [ ] **A4.** Invite Link Generation — Generate/view/revoke invite links UI (API exists)
+- [x] **A3.** System Announcements — Create/manage system-wide announcements UI
+- [x] **A4.** Invite Link Generation — Generate/view/revoke invite links UI (API exists)
 - [ ] **A2.** Student Impersonation — "Log in as student" button in admin user detail
 
 ## Phase 4 — Validate
@@ -77,6 +77,8 @@
 
 ### Phase 3 — Admin Polish
 - [x] **A1.** `/admin/users/new` — Create user form with password, role, status, crowns
+- [x] **A3.** System Announcements — Admin create/delete UI + map page banner
+- [x] **A4.** Invite Links — Admin generate/revoke + CopyButton + acceptance flow
 
 ---
 

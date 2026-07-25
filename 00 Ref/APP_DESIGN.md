@@ -1,6 +1,6 @@
 # Corsair Academy — Technical Design & Architecture
 
-**Last Updated:** July 25, 2026 (v2.1.0 — Multi-User + Admin Panel)
+**Last Updated:** July 26, 2026 (v2.2.0 — Admin Polish + Invites + Announcements)
 **Code Name:** "Corsair Academy"
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3
 
@@ -77,25 +77,144 @@
 
 ## 3. Route Map
 
+### Student Routes
+
 | Route | Page | Purpose |
 |-------|------|---------|
 | `/` | LoginPage | Pirate-themed auth gate with parchment card |
-| `/map` | MapPage | Treasure map with 4 sea cards, voyage paths, Wanted Poster banner |
+| `/map` | MapPage | Treasure map with 4 sea cards, voyage paths, Wanted Poster banner, announcement banner |
 | `/voyage/[id]` | VoyagePage | Trial scroll player — parchment UI, skull rating, cannon fire animation |
 | `/profile` | ProfilePage | Wanted Poster — pirate rank, skulls, sea charms, achievements, ship log |
-| `/captain` | CaptainPage | Parent dashboard — fleet report, per-sea breakdown, accuracy stats |
 | `/tavern` | TavernPage | Shop — 4 sea charms for purchase with crown balance |
 | `/ship` | ShipPage | Shipwright — 5 permanent upgrades with owned/unowned state |
 
+### Teacher Routes
+
+| Route | Page | Purpose |
+|-------|------|---------|
+| `/class` | ClassListPage | Teacher's class list (redirects to first class) |
+| `/class/[id]` | ClassDashboard | Class leaderboard, assignments, announcements |
+
+### Parent Routes
+
+| Route | Page | Purpose |
+|-------|------|---------|
+| `/captain` | CaptainPage | Parent fleet view — linked children, per-sea stats |
+
+### Invite Routes
+
+| Route | Page | Purpose |
+|-------|------|---------|
+| `/invite/[token]` | InviteAcceptPage | Join form — name, username, password. Expired/used handling. |
+
+### Admin Routes
+
+| Route | Page | Purpose |
+|-------|------|---------|
+| `/admin` | AdminDashboard | Admiral's Command — stats, recent users, classes, nav cards |
+| `/admin/users` | UserListPage | User table with role/status badges, edit links, +new button |
+| `/admin/users/new` | CreateUserPage | Create user form — name, username, password, role, status, crowns |
+| `/admin/users/[id]` | UserEditPage | Edit user — form + reset password + soft delete/restore |
+| `/admin/classes` | ClassListPage | Class list with teacher display, +new button |
+| `/admin/classes/new` | CreateClassPage | Create class form — name, multi-teacher checkboxes |
+| `/admin/classes/[id]` | ClassDetailPage | Teachers, student roster, assignment/announcement counts |
+| `/admin/voyages` | VoyageListPage | Curriculum list grouped by sea with status badges |
+| `/admin/voyages/[id]` | VoyageEditorPage | Metadata form + trials list with edit links |
+| `/admin/voyages/[id]/trials/[trialId]` | TrialEditorPage | Trial editor — form + live preview + version history |
+| `/admin/announcements` | AnnouncementsPage | System announcements — create form + list with delete |
+| `/admin/invites` | InvitesPage | Invite link generation — role/expiry form + list with copy/revoke |
+| `/admin/economy` | EconomyPage | Crown rates, shop prices, upgrade costs, rank XP thresholds |
+| `/admin/parents` | ParentsPage | Per-student parent linking with 2-parent limit |
+| `/admin/analytics` | AnalyticsPage | Stats, per-sea completion bars, recent activity |
+| `/admin/moderation` | ModerationPage | Flagged trial queue with approve/remove |
+| `/admin/settings` | SettingsPage | App identity, maintenance mode, feature flags |
+| `/admin/templates` | TemplatesPage | Curriculum bundles with apply-to-class, create template |
+
 ## 4. API Routes
 
-| Route | Method | Runtime | Purpose |
-|-------|--------|---------|---------|
-| `/api/auth/[...nextauth]` | GET/POST | nodejs | NextAuth v5 credentials provider + JWT |
-| `/api/trials/attempt` | POST | default | Record trial answer, award XP+crowns, update streak |
-| `/api/voyages/complete` | POST | default | Complete voyage, bonus XP+crowns, unlock next |
-| `/api/shop/buy` | POST | default | Deduct crowns, increment charm quantity |
-| `/api/shop/buy-upgrade` | POST | default | Deduct crowns, create UserShipUpgrade |
+### Core API
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/auth/[...nextauth]` | GET/POST | NextAuth v5 credentials provider + JWT (runtime: nodejs) |
+| `/api/trials/attempt` | POST | Record trial answer, award XP+crowns, update streak |
+| `/api/voyages/complete` | POST | Complete voyage, bonus XP+crowns, unlock next |
+| `/api/shop/buy` | POST | Deduct crowns, increment charm quantity |
+| `/api/shop/buy-upgrade` | POST | Deduct crowns, create UserShipUpgrade |
+
+### Invite API
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/invite/accept` | POST | Accept invite — create user with role, streak, charms, mark used |
+
+### Admin API — Users
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/users/create` | POST | Create user with bcrypt hash, duplicate check |
+| `/api/admin/users/update` | POST | Update user profile, role, status; log crown transactions |
+| `/api/admin/users/reset-password` | POST | Reset user password with new bcrypt hash |
+| `/api/admin/users/delete` | POST | Soft delete user (set deletedAt) |
+| `/api/admin/users/restore` | POST | Restore soft-deleted user |
+
+### Admin API — Classes
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/classes/create` | POST | Create class with teacher junction |
+| `/api/admin/classes/add-teacher` | POST | Add co-teacher via ClassTeacher junction |
+| `/api/admin/classes/enroll` | POST | Enroll student via StudentClass junction |
+
+### Admin API — Voyages & Trials
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/voyages/update` | POST | Update voyage metadata (title, status, difficulty, etc.) |
+| `/api/admin/trials/update` | POST | Update trial + save TrialVersion snapshot before edit |
+
+### Admin API — Announcements
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/announcements/create` | POST | Create system announcement with role target + expiry |
+| `/api/admin/announcements/delete` | POST | Delete announcement by id |
+
+### Admin API — Invites
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/invites/create` | POST | Generate invite link — crypto.randomUUID token, expiry |
+| `/api/admin/invites/revoke` | POST | Revoke unused invite link |
+
+### Admin API — Economy
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/economy` | GET/POST | Get/set crown rate, shop prices, upgrade costs, rank thresholds |
+| `/api/admin/economy/reset` | POST | Reset economy to defaults |
+
+### Admin API — Parents
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/parents/link` | POST | Link parent to student (max 2 parents per student) |
+| `/api/admin/parents/unlink` | POST | Unlink parent from student |
+
+### Admin API — Moderation
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/moderation/approve` | POST | Approve flagged trial (remove flags) |
+| `/api/admin/moderation/remove` | POST | Remove flagged trial |
+
+### Admin API — Settings & Templates
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/settings` | POST | Update system settings (app name, maintenance mode, features) |
+| `/api/admin/templates/create` | POST | Create voyage bundle template |
+| `/api/admin/templates/apply` | POST | Apply template to class (copy voyages) |
 
 ## 5. Auth Architecture
 
