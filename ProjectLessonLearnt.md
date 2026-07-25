@@ -19,6 +19,7 @@
 - **Polymorphic tables** (no FK possible) need manual cascade cleanup in DELETE handlers
 - **`@updatedAt` columns** have NO default in DB — raw SQL INSERTs must set them explicitly with `NOW()`
 - **Prisma field naming**: trust generated client types, not schema — `streaks` vs `streak` varies by query context
+- **Generated Prisma client should be committed** to repo — avoids needing `prisma generate` during Docker build
 
 ### Query Patterns
 - **Before writing Prisma queries**, verify field names with `grep_search` on `schema.prisma`
@@ -86,6 +87,15 @@
 - **preDeployCommand order**: `generate → db push → seed` (not push before generate)
 - **Railway preDeployCommand runs on EVERY deploy** — audit for destructive operations
 - **For production DB mutations**, use app API endpoints, not external scripts
+- **Folder names with spaces break Nixpacks**: `00 Ref` → cache mount path splits at space → build crashes. Use `docs/` or `00_Ref/` instead
+- **`.dockerignore` is essential**: exclude `.env` to prevent Nixpacks from injecting secrets as Docker ARG/ENV
+
+### Security
+- **Never expose secrets in Docker ARG/ENV**: Nixpacks reads `.env` and creates ARG/ENV for each variable — these are visible in image layers forever
+- **`.env` must be in `.gitignore`** AND `.dockerignore` — gitignore prevents commits, dockerignore prevents build injection
+- **Set production secrets in Railway Dashboard → Variables**, not in repo files
+- **`.env.example`** with placeholders is safe to commit — documents required vars without exposing values
+- **Generated Prisma client in repo** means build doesn't need DATABASE_URL at build time — reduces attack surface
 
 ---
 
@@ -109,6 +119,7 @@
 - **Python `-c` broken in PowerShell** — always write `.py` files
 - **Multiline git commits hang** in PowerShell — use single-line messages
 - **`grep_search` unreliable for TS patterns** with special chars — use PowerShell `Select-String`
+- **Folder names with spaces break CI/CD**: Nixpacks, Docker, and shell scripts all choke on spaces. Use `kebab-case`, `snake_case`, or `CamelCase` only.
 
 ### VS Code & Terminal
 - **Terminal output frequently empty** with `mode=sync` — use VS Code tasks for output visibility

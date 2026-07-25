@@ -317,7 +317,7 @@ DEEPSEEK_MODEL=deepseek-v4-pro
 - **Run**: `npx tsx scripts/test-phase4.ts`
 - **Coverage**: Auth (4), Admin pages (14), Student pages (4), AI modules (6)
 - **AI tests**: Trial generation, grading (correct + empty), tutor chat, adaptive difficulty, personalization
-- **Test plans**: 7 plan documents in `00 Ref/` covering all features
+- **Test plans**: 7 plan documents in `docs/` covering all features
 
 ### Phase 4 Test Results (2026-07-26)
 
