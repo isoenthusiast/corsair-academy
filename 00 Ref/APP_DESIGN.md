@@ -1,6 +1,6 @@
 # Corsair Academy — Technical Design & Architecture
 
-**Last Updated:** July 26, 2026 (v2.5.0 — AI Grading, Tutor, Adaptive, Personalization)
+**Last Updated:** July 26, 2026 (v2.6.0 — Phase 4 Validation: 28/28 tests pass)
 **Code Name:** "Corsair Academy"
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3
 
@@ -310,6 +310,28 @@ DEEPSEEK_MODEL=deepseek-v4-pro
 |------|----------|----------|----------|
 | Captain (Parent) | `parent` | `learning123` | 0 🪙 |
 | Cadet (Learner) | `andrew` | `andrew123` | 50 🪙, 3 Whisper Scrolls |
+
+## 9. Test Infrastructure
+
+- **Test Runner**: `scripts/test-phase4.ts` — 28 automated API/E2E tests using native `fetch` + CookieJar
+- **Run**: `npx tsx scripts/test-phase4.ts`
+- **Coverage**: Auth (4), Admin pages (14), Student pages (4), AI modules (6)
+- **AI tests**: Trial generation, grading (correct + empty), tutor chat, adaptive difficulty, personalization
+- **Test plans**: 7 plan documents in `00 Ref/` covering all features
+
+### Phase 4 Test Results (2026-07-26)
+
+| Category | Tests | Result |
+|----------|-------|--------|
+| E2 — Auth & RBAC | 4 | ✅ 4/4 |
+| E1 — Admin Pages | 14 | ✅ 14/14 |
+| E4 — Student Pages | 4 | ✅ 4/4 |
+| AI-1 — Trial Generation | 1 | ✅ 1/1 |
+| AI-2 — Grading | 2 | ✅ 2/2 |
+| AI-3 — Tutor Chat | 1 | ✅ 1/1 |
+| AI-4 — Adaptive | 1 | ✅ 1/1 |
+| AI-5 — Personalization | 1 | ✅ 1/1 |
+| **Total** | **28** | **✅ 100%** |
 
 ## 10. Learning Design Summary
 

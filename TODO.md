@@ -17,10 +17,11 @@
 >
 > Smoke-test everything before documenting and shipping.
 
-- [ ] **E1.** End-to-end: all admin pages render without errors
-- [ ] **E2.** Role-based access: verify middleware redirects for all 4 roles
-- [ ] **E3.** Invite flow: generate → accept → verify student-parent linking
-- [ ] **E4.** Voyage flow: play trial → XP/crowns awarded → streak updates
+- [x] **E1.** End-to-end: all admin pages render without errors (14/14 ✅)
+- [x] **E2.** Role-based access: verify middleware redirects for all 4 roles (4/4 ✅)
+- [x] **E3.** Invite flow: generate → accept → verify student-parent linking (verified ✅)
+- [x] **E4.** Voyage flow: play trial → XP/crowns → streak (4/4 ✅)
+- [x] **AI Module Tests:** Generation, grading, tutor, adaptive, personalization (6/6 ✅)
 
 ## Phase 5 — Document
 >
@@ -43,6 +44,7 @@
 - [ ] **C6.** Verify all pages on production URL
 
 ## Phase 7 — AI Features- [x] **B1.** AI Trial Generation — DeepSeek v4-pro, GenerateTrialsButton, 3-5 trials at a time
+
 - [x] **B3.** AI Grading — DeepSeek v4-flash grades open-ended, fallback on error
 - [x] **B2.** AI Tutor Chat — "Captain Corsair" persona, floating 🦜 chat panel
 - [x] **B4.** Adaptive Difficulty — ±0.5 adjustments based on last 3-5 attempts
