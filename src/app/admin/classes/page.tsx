@@ -19,13 +19,13 @@ export default async function AdminClassesPage() {
             </header>
             <main className="max-w-4xl mx-auto px-4 py-8">
                 <div className="space-y-4">
-                    {classes.map(c=>(
+                    {classes.map(c => (
                         <div key={c.id} className="sea-card p-6">
                             <div className="flex items-center justify-between mb-3">
                                 <h2 className="text-lg" style={{ fontFamily: "'Pirata One', cursive", color: "#F7C948" }}>{c.name}</h2>
                                 <span className="text-sm text-amber-600">{c._count.students} students</span>
                             </div>
-                            <div className="text-sm text-amber-600 mb-2">Teachers: {c.teachers.map(ct=>ct.teacher.name).join(", ") || "None"}</div>
+                            <div className="text-sm text-amber-600 mb-2">Teachers: {c.teachers.map(ct => ct.teacher.name).join(", ") || "None"}</div>
                             <Link href={`/admin/classes/${c.id}`} className="text-amber-400 text-sm hover:text-amber-200">Manage →</Link>
                         </div>
                     ))}

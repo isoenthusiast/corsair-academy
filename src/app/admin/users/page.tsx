@@ -21,16 +21,16 @@ export default async function AdminUsersPage() {
                 <div className="sea-card overflow-hidden">
                     <table className="w-full text-sm">
                         <thead><tr className="border-b border-amber-900/20 text-amber-600 text-left">
-                            {["Name","Username","Role","Status","XP","Crowns","Rank","Actions"].map(h=><th key={h} className="p-3 font-medium">{h}</th>)}
+                            {["Name", "Username", "Role", "Status", "XP", "Crowns", "Rank", "Actions"].map(h => <th key={h} className="p-3 font-medium">{h}</th>)}
                         </tr></thead>
                         <tbody>
-                            {users.map(u=>(
+                            {users.map(u => (
                                 <tr key={u.id} className="border-b border-amber-900/10 hover:bg-abyssal/50">
                                     <td className="p-3">{u.name}</td>
                                     <td className="p-3 text-amber-400">{u.username}</td>
                                     <td className="p-3"><span className="px-2 py-0.5 rounded-full text-xs bg-amber-900/30 text-amber-400">{u.role}</span></td>
-                                    <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-xs ${u.status==="Active"?"bg-emerald-900/30 text-emerald-400":u.status==="Inactive"?"bg-slate-800 text-slate-400":"bg-red-900/30 text-red-400"}`}>{u.status||"Active"}</span></td>
-                                    <td className="p-3">{u.pointLog?.length||0} XP</td>
+                                    <td className="p-3"><span className={`px-2 py-0.5 rounded-full text-xs ${u.status === "Active" ? "bg-emerald-900/30 text-emerald-400" : u.status === "Inactive" ? "bg-slate-800 text-slate-400" : "bg-red-900/30 text-red-400"}`}>{u.status || "Active"}</span></td>
+                                    <td className="p-3">{u.pointLog?.length || 0} XP</td>
                                     <td className="p-3">🪙 {u.crowns}</td>
                                     <td className="p-3">{u.pirateRank}</td>
                                     <td className="p-3"><Link href={`/admin/users/${u.id}`} className="text-amber-400 hover:text-amber-200 text-xs">Edit</Link></td>

@@ -4,7 +4,7 @@
 **Code Name:** "Corsair Academy"
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3
 
-**Repo:** https://github.com/isoenthusiast/corsair-academy
+**Repo:** <https://github.com/isoenthusiast/corsair-academy>
 
 **Related Documents:**
 

@@ -11,7 +11,7 @@ export default async function AnalyticsPage() {
         prisma.user.count({ where: { deletedAt: null } }),
         prisma.trialAttempt.count(),
         prisma.userVoyageProgress.count({ where: { status: "Completed" } }),
-        prisma.trialAttempt.count({ where: { createdAt: { gte: new Date(Date.now() - 24*60*60*1000) } } }),
+        prisma.trialAttempt.count({ where: { createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } } }),
     ]);
 
     const seas = await prisma.sea.findMany({ include: { voyages: { include: { progress: true } } } });

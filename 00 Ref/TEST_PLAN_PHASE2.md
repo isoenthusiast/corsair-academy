@@ -6,6 +6,7 @@
 ---
 
 ## P2T1 — User Editor (/admin/users/[id])
+
 | ID | Action | Expected |
 |----|--------|----------|
 | P2T1.1 | Click Edit on any user | Form pre-filled with name, username, role, status, age, bio |
@@ -16,6 +17,7 @@
 | P2T1.6 | Soft delete user | deletedAt set, restore button appears |
 
 ## P2T2 — Economy Panel (/admin/economy)
+
 | ID | Action | Expected |
 |----|--------|----------|
 | P2T2.1 | Change crown rate from 0.5 to 0.75 | New trials award 75% of XP |
@@ -24,6 +26,7 @@
 | P2T2.4 | Reset to defaults | All values revert |
 
 ## P2T3 — Parent Linking (/admin/parents)
+
 | ID | Action | Expected |
 |----|--------|----------|
 | P2T3.1 | Search student "Andrew" | Shows Andrew with current parents |
@@ -32,6 +35,7 @@
 | P2T3.4 | Unlink parent | StudentParent deleted |
 
 ## P2T4 — Analytics (/admin/analytics)
+
 | ID | Action | Expected |
 |----|--------|----------|
 | P2T4.1 | View dashboard | Engagement, completion, accuracy charts |
@@ -39,6 +43,7 @@
 | P2T4.3 | Export CSV | Downloads file |
 
 ## P2T5 — Moderation (/admin/moderation)
+
 | ID | Action | Expected |
 |----|--------|----------|
 | P2T5.1 | View flagged trials | Sorted by flag count |
@@ -46,6 +51,7 @@
 | P2T5.3 | Remove trial | Deleted from pool |
 
 ## P2T6 — Settings (/admin/settings)
+
 | ID | Action | Expected |
 |----|--------|----------|
 | P2T6.1 | Toggle maintenance mode | Non-admin users see maintenance page |
@@ -53,12 +59,14 @@
 | P2T6.3 | Change app name | Reflects in layout title |
 
 ## P2T7 — Templates (/admin/templates)
+
 | ID | Action | Expected |
 |----|--------|----------|
 | P2T7.1 | Create template | Name + select voyages + set due days |
 | P2T7.2 | Apply to class | All voyages assigned with due dates |
 
 ## P2T8 — Invite (/invite/[token])
+
 | ID | Action | Expected |
 |----|--------|----------|
 | P2T8.1 | Open valid invite link | Form: name, username, password |

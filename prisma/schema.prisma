@@ -12,88 +12,88 @@ datasource db {
 // ═══════════════════════════════════════════
 
 model User {
-    id                  String    @id @default(cuid())
-    name                String
-    username            String    @unique
-    passwordHash        String
-    role                Role      @default(Student)
-    status              String    @default("Active")
-    avatarUrl           String?
-    age                 Int?
-    bio                 String?
-    favoriteSea         String?
-    learningGoals       String?
-    crowns              Int       @default(0)
-    pirateRank          String    @default("Deckhand")
-    mustChangePassword  Boolean   @default(false)
-    deletedAt           DateTime?
-    createdAt           DateTime  @default(now())
+    id                 String    @id @default(cuid())
+    name               String
+    username           String    @unique
+    passwordHash       String
+    role               Role      @default(Student)
+    status             String    @default("Active")
+    avatarUrl          String?
+    age                Int?
+    bio                String?
+    favoriteSea        String?
+    learningGoals      String?
+    crowns             Int       @default(0)
+    pirateRank         String    @default("Deckhand")
+    mustChangePassword Boolean   @default(false)
+    deletedAt          DateTime?
+    createdAt          DateTime  @default(now())
 
-    progress        UserVoyageProgress[]
-    achievements    UserAchievement[]
-    pointLog        PointTransaction[]
-    crownLog        CrownTransaction[]
-    streaks         Streak[]
-    charms          SeaCharm[]
-    attempts        TrialAttempt[]
-    shipUpgrades    UserShipUpgrade[]
-    chestClaims     DailyChestClaim[]
-    parentLinks     StudentParent[]       @relation("StudentParentLink")
-    parentOfLinks   StudentParent[]       @relation("ParentChildLink")
-    studentClasses  StudentClass[]
-    taughtClasses   ClassTeacher[]
-    assignments     Assignment[]         @relation("AssignmentTeacher")
-    studentAssignments Assignment[]      @relation("AssignmentStudent")
-    announcements   Announcement[]
-    auditActions    AuditLog[]
-    loginRecords    LoginHistory[]
-    createdInvites  InviteLink[]          @relation("InviteCreator")
+    progress            UserVoyageProgress[]
+    achievements        UserAchievement[]
+    pointLog            PointTransaction[]
+    crownLog            CrownTransaction[]
+    streaks             Streak[]
+    charms              SeaCharm[]
+    attempts            TrialAttempt[]
+    shipUpgrades        UserShipUpgrade[]
+    chestClaims         DailyChestClaim[]
+    parentLinks         StudentParent[]      @relation("StudentParentLink")
+    parentOfLinks       StudentParent[]      @relation("ParentChildLink")
+    studentClasses      StudentClass[]
+    taughtClasses       ClassTeacher[]
+    assignments         Assignment[]         @relation("AssignmentTeacher")
+    studentAssignments  Assignment[]         @relation("AssignmentStudent")
+    announcements       Announcement[]
+    auditActions        AuditLog[]
+    loginRecords        LoginHistory[]
+    createdInvites      InviteLink[]         @relation("InviteCreator")
     systemAnnouncements SystemAnnouncement[]
-    voyageBundles   VoyageBundle[]
+    voyageBundles       VoyageBundle[]
 }
 
 // ── Seas & Voyages ──
 
 model Sea {
-    id          String    @id @default(cuid())
-    name        String    @unique
+    id          String   @id @default(cuid())
+    name        String   @unique
     icon        String
     description String?
     color       String?
-    sortOrder   Int       @default(0)
+    sortOrder   Int      @default(0)
     voyages     Voyage[]
 }
 
 model Voyage {
-    id                   String    @id @default(cuid())
-    title                String
-    description          String?
-    seaId                String
-    sortOrder            Int       @default(0)
-    difficulty           Int       @default(1)
-    requiredVoyageId     String?
-    captainGauntlet      Boolean   @default(false)
-    status               String    @default("Draft")
-    objectives           String?
-    estimatedMinutes     Int?
-    tags                 String[]  @default([])
-    skills               String[]  @default([])
+    id                    String   @id @default(cuid())
+    title                 String
+    description           String?
+    seaId                 String
+    sortOrder             Int      @default(0)
+    difficulty            Int      @default(1)
+    requiredVoyageId      String?
+    captainGauntlet       Boolean  @default(false)
+    status                String   @default("Draft")
+    objectives            String?
+    estimatedMinutes      Int?
+    tags                  String[] @default([])
+    skills                String[] @default([])
     prerequisiteKnowledge String?
-    successCriteria      String?
-    abTestGroup          String?
-    branchParentId       String?
-    branchLabel          String?
-    createdAt            DateTime  @default(now())
+    successCriteria       String?
+    abTestGroup           String?
+    branchParentId        String?
+    branchLabel           String?
+    createdAt             DateTime @default(now())
 
-    sea             Sea                  @relation(fields: [seaId], references: [id])
-    trials          Trial[]
-    prerequisite    Voyage?              @relation("VoyagePrerequisite", fields: [requiredVoyageId], references: [id])
-    nextVoyages     Voyage[]             @relation("VoyagePrerequisite")
-    branchChildren  Voyage[]             @relation("VoyageBranch")
-    branchParent    Voyage?              @relation("VoyageBranch", fields: [branchParentId], references: [id])
-    progress        UserVoyageProgress[]
-    assignments     Assignment[]
-    bundleItems     VoyageBundleItem[]
+    sea            Sea                  @relation(fields: [seaId], references: [id])
+    trials         Trial[]
+    prerequisite   Voyage?              @relation("VoyagePrerequisite", fields: [requiredVoyageId], references: [id])
+    nextVoyages    Voyage[]             @relation("VoyagePrerequisite")
+    branchChildren Voyage[]             @relation("VoyageBranch")
+    branchParent   Voyage?              @relation("VoyageBranch", fields: [branchParentId], references: [id])
+    progress       UserVoyageProgress[]
+    assignments    Assignment[]
+    bundleItems    VoyageBundleItem[]
 
     @@index([seaId])
 }
@@ -183,6 +183,7 @@ model PointTransaction {
     createdAt  DateTime @default(now())
 
     user User @relation(fields: [userId], references: [id])
+
     @@index([userId])
 }
 
@@ -195,6 +196,7 @@ model CrownTransaction {
     createdAt DateTime @default(now())
 
     user User @relation(fields: [userId], references: [id])
+
     @@index([userId])
 }
 
@@ -219,6 +221,7 @@ model UserShipUpgrade {
 
     user    User        @relation(fields: [userId], references: [id])
     upgrade ShipUpgrade @relation(fields: [upgradeId], references: [id])
+
     @@unique([userId, upgradeId])
 }
 
@@ -233,6 +236,7 @@ model DailyChestClaim {
     claimedAt     DateTime @default(now())
 
     user User @relation(fields: [userId], references: [id])
+
     @@unique([userId, streakDay])
 }
 
@@ -258,6 +262,7 @@ model UserAchievement {
 
     user        User        @relation(fields: [userId], references: [id])
     achievement Achievement @relation(fields: [achievementId], references: [id])
+
     @@unique([userId, achievementId])
 }
 
@@ -281,6 +286,7 @@ model SeaCharm {
     quantity Int          @default(0)
 
     user User @relation(fields: [userId], references: [id])
+
     @@unique([userId, type])
 }
 
@@ -304,6 +310,7 @@ model ClassTeacher {
 
     class_  Class @relation(fields: [classId], references: [id])
     teacher User  @relation(fields: [teacherId], references: [id])
+
     @@unique([classId, teacherId])
 }
 
@@ -314,6 +321,7 @@ model StudentClass {
 
     student User  @relation(fields: [studentId], references: [id])
     class_  Class @relation(fields: [classId], references: [id])
+
     @@unique([studentId, classId])
 }
 
@@ -324,6 +332,7 @@ model StudentParent {
 
     student User @relation("StudentParentLink", fields: [studentId], references: [id])
     parent  User @relation("ParentChildLink", fields: [parentId], references: [id])
+
     @@unique([studentId, parentId])
 }
 
@@ -340,6 +349,7 @@ model Assignment {
     class_  Class  @relation(fields: [classId], references: [id])
     teacher User   @relation("AssignmentTeacher", fields: [teacherId], references: [id])
     student User?  @relation("AssignmentStudent", fields: [studentId], references: [id])
+
     @@index([classId])
 }
 
@@ -353,6 +363,7 @@ model Announcement {
 
     class_  Class @relation(fields: [classId], references: [id])
     teacher User  @relation(fields: [teacherId], references: [id])
+
     @@index([classId])
 }
 
@@ -426,6 +437,7 @@ model VoyageBundleItem {
 
     bundle VoyageBundle @relation(fields: [bundleId], references: [id])
     voyage Voyage       @relation(fields: [voyageId], references: [id])
+
     @@unique([bundleId, voyageId])
 }
 

@@ -17,15 +17,15 @@ export default async function AdminVoyagesPage() {
                 </div>
             </header>
             <main className="max-w-6xl mx-auto px-4 py-8">
-                {seas.map(sea=>(
+                {seas.map(sea => (
                     <div key={sea.id} className="mb-8">
                         <h2 className="text-lg mb-4" style={{ fontFamily: "'Pirata One', cursive", color: "#F7C948" }}>{sea.icon} {sea.name}</h2>
                         <div className="space-y-2">
-                            {sea.voyages.map(v=>(
+                            {sea.voyages.map(v => (
                                 <div key={v.id} className="sea-card p-4 flex items-center gap-4">
-                                    <span className="text-sm px-2 py-0.5 rounded-full bg-amber-900/30 text-amber-400">{v.status||"Draft"}</span>
+                                    <span className="text-sm px-2 py-0.5 rounded-full bg-amber-900/30 text-amber-400">{v.status || "Draft"}</span>
                                     <div className="flex-1">
-                                        <div className="font-medium text-sm">{v.title} {v.captainGauntlet&&"⚔️"}</div>
+                                        <div className="font-medium text-sm">{v.title} {v.captainGauntlet && "⚔️"}</div>
                                         <div className="text-xs text-amber-600">{v._count.trials} trials · {"☠️".repeat(v.difficulty)}</div>
                                     </div>
                                     <Link href={`/admin/voyages/${v.id}`} className="text-amber-400 text-sm hover:text-amber-200">Edit</Link>

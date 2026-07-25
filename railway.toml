@@ -1,0 +1,5 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+preDeployCommand = "npx prisma db push && npx prisma generate && npx tsx prisma/seed.ts"

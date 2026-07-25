@@ -27,15 +27,15 @@ export default async function UserEditPage({ params }: { params: Promise<{ id: s
                             <div><label className="block text-sm text-amber-600 mb-1">Name</label><input name="name" defaultValue={user.name} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white" /></div>
                             <div><label className="block text-sm text-amber-600 mb-1">Username</label><input name="username" defaultValue={user.username} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white" /></div>
                             <div><label className="block text-sm text-amber-600 mb-1">Role</label><select name="role" defaultValue={user.role} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white">
-                                {["Student","Teacher","Parent","Admin"].map(r=><option key={r} value={r}>{r}</option>)}
+                                {["Student", "Teacher", "Parent", "Admin"].map(r => <option key={r} value={r}>{r}</option>)}
                             </select></div>
-                            <div><label className="block text-sm text-amber-600 mb-1">Status</label><select name="status" defaultValue={user.status||"Active"} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white">
-                                {["Active","Inactive","Suspended"].map(s=><option key={s} value={s}>{s}</option>)}
+                            <div><label className="block text-sm text-amber-600 mb-1">Status</label><select name="status" defaultValue={user.status || "Active"} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white">
+                                {["Active", "Inactive", "Suspended"].map(s => <option key={s} value={s}>{s}</option>)}
                             </select></div>
-                            <div><label className="block text-sm text-amber-600 mb-1">Age</label><input name="age" type="number" defaultValue={user.age||""} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white" /></div>
+                            <div><label className="block text-sm text-amber-600 mb-1">Age</label><input name="age" type="number" defaultValue={user.age || ""} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white" /></div>
                             <div><label className="block text-sm text-amber-600 mb-1">Crowns</label><input name="crowns" type="number" defaultValue={user.crowns} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white" /></div>
                         </div>
-                        <div><label className="block text-sm text-amber-600 mb-1">Bio</label><textarea name="bio" defaultValue={user.bio||""} rows={2} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white" /></div>
+                        <div><label className="block text-sm text-amber-600 mb-1">Bio</label><textarea name="bio" defaultValue={user.bio || ""} rows={2} className="w-full px-3 py-2 rounded-lg bg-abyssal border border-amber-900/30 text-white" /></div>
                         <div className="flex gap-3">
                             <button type="submit" className="btn-pirate">Save Changes</button>
                             <button formAction="/api/admin/users/reset-password" className="btn-cannon text-sm">Reset Password</button>
@@ -44,8 +44,8 @@ export default async function UserEditPage({ params }: { params: Promise<{ id: s
                         </div>
                     </form>
                     <div className="mt-4 p-3 rounded-lg bg-abyssal/50 text-xs text-amber-600">
-                        Created: {new Date(user.createdAt).toLocaleString()}<br/>
-                        {user.deletedAt && <>Deleted: {new Date(user.deletedAt).toLocaleString()}<br/></>}
+                        Created: {new Date(user.createdAt).toLocaleString()}<br />
+                        {user.deletedAt && <>Deleted: {new Date(user.deletedAt).toLocaleString()}<br /></>}
                         Rank: {user.pirateRank}
                     </div>
                 </div>

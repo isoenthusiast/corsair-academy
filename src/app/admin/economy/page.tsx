@@ -52,7 +52,7 @@ export default async function EconomyPage() {
                 <div className="sea-card p-6">
                     <h2 className="text-lg mb-4" style={{ fontFamily: "'Pirata One', cursive", color: "#F7C948" }}>⛵ Ship Upgrade Costs</h2>
                     <div className="space-y-2">
-                        {["Reinforced Hull","Crow's Nest","Treasure Hold","Cannon Array","Phantom Sails"].map((name,i) => (
+                        {["Reinforced Hull", "Crow's Nest", "Treasure Hold", "Cannon Array", "Phantom Sails"].map((name, i) => (
                             <form key={name} action="/api/admin/economy" method="POST" className="flex items-center gap-3">
                                 <input type="hidden" name="setting" value={`upgrade_${i}`} />
                                 <span className="w-40 text-sm">{name}</span>
@@ -66,7 +66,7 @@ export default async function EconomyPage() {
 
                 <div className="sea-card p-6">
                     <h2 className="text-lg mb-4" style={{ fontFamily: "'Pirata One', cursive", color: "#F7C948" }}>👑 Rank XP Thresholds</h2>
-                    {["Deckhand","Swabbie","Gunner","Boatswain","Quartermaster","First Mate","Captain","Commodore","Sea Lord"].map((rank,i) => (
+                    {["Deckhand", "Swabbie", "Gunner", "Boatswain", "Quartermaster", "First Mate", "Captain", "Commodore", "Sea Lord"].map((rank, i) => (
                         <form key={rank} action="/api/admin/economy" method="POST" className="flex items-center gap-3 mb-2">
                             <input type="hidden" name="setting" value={`rank_${i}`} />
                             <span className="w-32 text-sm">{rank}</span>
