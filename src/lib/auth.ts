@@ -14,12 +14,8 @@ declare module "next-auth" {
             impersonatedBy?: string;
         } & DefaultSession["user"];
     }
-}
-
-declare module "next-auth/jwt" {
-    interface JWT {
-        id: string;
-        role: string;
+    interface User {
+        role?: string;
         impersonatedBy?: string;
     }
 }

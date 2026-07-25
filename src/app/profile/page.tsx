@@ -60,7 +60,7 @@ export default async function ProfilePage() {
                     <div className="text-center text-sm" style={{ color: "#5D4037" }}>{rank} → {rankIdx + 1 < RANKS.length ? RANKS[rankIdx + 1] : "MAX RANK"} ({Math.round(rp)}%)</div>
 
                     <div className="grid grid-cols-4 gap-3 mt-6">
-                        {[["☠️", totalSkulls, "Skulls"], ["🗺️", `${completed}/${totalV}`, "Voyages"], ["🪙", user.crowns, "Crowns"], ["🔥", user.streaks?.currentStreak || 0, "Streak"]].map(([i, v, l]) => (
+                        {[["☠️", totalSkulls, "Skulls"], ["🗺️", `${completed}/${totalV}`, "Voyages"], ["🪙", user.crowns, "Crowns"], ["🔥", user.streaks?.[0]?.currentStreak || 0, "Streak"]].map(([i, v, l]) => (
                             <div key={l} className="text-center p-3 rounded-xl bg-amber-50/50"><div className="text-xl">{i}</div><div className="text-lg font-bold" style={{ color: "#5D4037" }}>{v}</div><div className="text-xs text-amber-700">{l}</div></div>
                         ))}
                     </div>

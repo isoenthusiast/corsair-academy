@@ -20,9 +20,9 @@ export function TrialPlayer({ voyage, progress, isCompleted, userId }: { voyage:
 
     async function submit() {
         if (loading) return; setLoading(true);
-        const a = t.type === "multi_choice" ? selected : answer.trim();
+        const a = (t.type === "multi_choice" ? selected : answer.trim()) || "";
 
-        let ok: boolean; let s: number; let fb = "";
+        let ok: boolean; let s = 1; let fb = "";
         if (t.type === "open_ended") {
             // AI grading for open-ended trials
             try {

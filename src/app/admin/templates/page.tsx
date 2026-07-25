@@ -7,7 +7,7 @@ export default async function TemplatesPage() {
     const session = await auth();
     if (!session?.user || session.user.role !== "Admin") redirect("/");
 
-    const bundles = await prisma.voyageBundle.findMany({ include: { items: { include: { voyage: true } } } });
+    const bundles = await prisma.voyageBundle.findMany({ include: { items: { include: { voyage: { include: { sea: true } } } } } });
     const allVoyages = await prisma.voyage.findMany({ include: { sea: true }, orderBy: { sortOrder: "asc" } });
     const classes = await prisma.class.findMany();
 

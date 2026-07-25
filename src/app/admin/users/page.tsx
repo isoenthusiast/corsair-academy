@@ -6,7 +6,7 @@ import Link from "next/link";
 export default async function AdminUsersPage() {
     const session = await auth();
     if (!session?.user || session.user.role !== "Admin") redirect("/");
-    const users = await prisma.user.findMany({ orderBy: { createdAt: "desc" } });
+    const users = await prisma.user.findMany({ orderBy: { createdAt: "desc" }, include: { pointLog: { select: { id: true } } } });
 
     return (
         <div className="min-h-screen treasure-map">

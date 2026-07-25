@@ -1,5 +1,7 @@
 [build]
 builder = "nixpacks"
+[nixpacks]
+providers = ["nodejs_22"]
 
 [deploy]
-preDeployCommand = "npx prisma db push && npx prisma generate && npx tsx prisma/seed.ts"
+preDeployCommand = "npx prisma generate && npx prisma db push && npx tsx prisma/seed.ts"

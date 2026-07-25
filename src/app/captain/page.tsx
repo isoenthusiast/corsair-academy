@@ -52,12 +52,12 @@ export default async function CaptainPage() {
                                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-600 to-yellow-500 flex items-center justify-center text-2xl">🏴</div>
                                 <div><h3 className="text-2xl">{s.learner.name}</h3><p className="text-amber-700 text-sm">{s.rank} · {s.xp} XP · 🪙 {s.learner.crowns}</p></div>
                                 <div className="ml-auto flex gap-3">
-                                    <div className="text-center"><div className="text-2xl font-bold" style={{ color: "#D32F2F" }}>🔥 {s.streak?.currentStreak || 0}d</div><div className="text-xs text-amber-700">Streak</div></div>
+                                    <div className="text-center"><div className="text-2xl font-bold" style={{ color: "#D32F2F" }}>🔥 {s.streak?.[0]?.currentStreak || 0}d</div><div className="text-xs text-amber-700">Streak</div></div>
                                     <div className="text-center"><div className="text-2xl font-bold" style={{ color: "#00897B" }}>{s.todayTrials}</div><div className="text-xs text-amber-700">Today</div></div>
                                 </div>
                             </div>
                             <div className="grid grid-cols-4 gap-3 mb-4">
-                                {[["🗺️", `${s.done}/${totalV}`, "Voyages"], ["☠️", s.skulls, "Skulls"], ["🎯", `${s.acc}%`, "Accuracy"], ["⚓", s.streak?.longestStreak || 0, "Best Streak"]].map(([i, v, l]) => (
+                                {[["🗺️", `${s.done}/${totalV}`, "Voyages"], ["☠️", s.skulls, "Skulls"], ["🎯", `${s.acc}%`, "Accuracy"], ["⚓", s.streak?.[0]?.longestStreak || 0, "Best Streak"]].map(([i, v, l]) => (
                                     <div key={l} className="text-center p-3 rounded-xl bg-amber-50/50"><div className="text-lg">{i}</div><div className="text-lg font-bold" style={{ color: "#5D4037" }}>{v}</div><div className="text-xs text-amber-700">{l}</div></div>
                                 ))}
                             </div>

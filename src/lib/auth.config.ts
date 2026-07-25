@@ -7,7 +7,7 @@ export const authConfig: NextAuthConfig = {
             if (user) {
                 token.id = user.id as string;
                 token.role = (user as any).role;
-                token.impersonatedBy = (user as any).impersonatedBy;
+                (token as any).impersonatedBy = (user as any).impersonatedBy;
             }
             return token;
         },
@@ -15,7 +15,7 @@ export const authConfig: NextAuthConfig = {
             if (session.user) {
                 session.user.id = token.id as string;
                 session.user.role = token.role as string;
-                session.user.impersonatedBy = token.impersonatedBy as string | undefined;
+                session.user.impersonatedBy = (token as any).impersonatedBy as string | undefined;
             }
             return session;
         },

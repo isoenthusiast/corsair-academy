@@ -71,7 +71,7 @@ export default async function ClassDetailPage({ params }: { params: Promise<{ id
                                 <div className="flex-1"><div className="text-sm font-medium">{a.voyage.title}</div></div>
                                 {a.dueDate && <span className="text-xs text-amber-600">Due: {new Date(a.dueDate).toLocaleDateString()}</span>}
                             </div>
-                        ))}</div>
+                        ))}</div>}
                 </div>
 
                 {/* Announcements */}
@@ -84,7 +84,7 @@ export default async function ClassDetailPage({ params }: { params: Promise<{ id
                                 <p className="text-sm text-amber-600 mt-1">{a.body}</p>
                                 <p className="text-xs text-amber-800 mt-2">{new Date(a.createdAt).toLocaleDateString()}</p>
                             </div>
-                        ))}</div>
+                        ))}</div>}
                 </div>
             </main>
         </div>
