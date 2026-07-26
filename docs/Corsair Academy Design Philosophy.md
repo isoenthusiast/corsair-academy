@@ -1,9 +1,9 @@
 # Corsair Academy — Design Philosophy
 
-**Last Updated:** July 26, 2026 (v3.0.0 — Consolidated from 6 philosophy documents)
+**Last Updated:** July 26, 2026 (v3.0.0)
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3 + DeepSeek AI
 
-> This document consolidates GAME_PHILOSOPHY.md, LEARNING_PHILOSOPHY.md, USER_PHILOSOPHY.md, CURRICULUM_PHILOSOPHY.md, ADMIN_PHILOSOPHY.md, and AI_PHILOSOPHY.md into a single unified design reference.
+> This is the single source of truth for all design decisions. When a new feature is proposed, it should be **grilled** (Q&A alignment), then **registered here** before building. See `CLAUDE.md` for the full development workflow.
 
 ---
 
