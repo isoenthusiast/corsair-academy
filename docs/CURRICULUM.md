@@ -357,3 +357,102 @@ Examples:
   IGCSE-CIE-Eng-Reading
   IGCSE-CIE-Math-Algebra
 ```
+
+---
+
+## 10. Cambridge Official Curriculum Structure
+
+> Source: [Cambridge International Sitemap](https://www.cambridgeinternational.org/sitemap/) & [Programmes & Qualifications](https://www.cambridgeinternational.org/programmes-and-qualifications/)
+> The Cambridge Pathway has **4 stages** (not 11 year-levels). IGCSE is one stage within this pathway.
+
+### 10.1 The Cambridge Pathway
+
+| Stage | Age Range | Our Voyage Difficulty | Corsair Mapping |
+|-------|----------|----------------------|-----------------|
+| **Cambridge Early Years** | 3-5 | 1 | Foundation voyages |
+| **Cambridge Primary** | 5-11 | 2-3 | Primary voyages |
+| **Cambridge Lower Secondary** | 11-14 | 3-4 | Lower secondary voyages |
+| **Cambridge Upper Secondary (IGCSE)** | 14-16 | 4-5 | IGCSE voyages |
+| **Cambridge Advanced (AS & A Level)** | 16-19 | 5 | Advanced voyages (future) |
+
+### 10.2 Cambridge Primary Subjects (Ages 5-11)
+
+**Source:** [Cambridge Primary Curriculum](https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-primary/curriculum/)
+
+| Subject | Code | Corsair Sea |
+|---------|------|-------------|
+| Art & Design | 0067 | — |
+| Computing | 0059 | — |
+| Digital Literacy | 0072 | — |
+| **English** | 0058 | 📚 Sea of Cunning |
+| English as a Second Language | 0057 | 🀄 Sea of Whispers |
+| Global Perspectives | 0838 | — |
+| Humanities | 0065 | — |
+| **Mathematics** | 0096 | 🧮 Sea of Navigation |
+| Modern Foreign Language | 0064 | 🀄 Sea of Whispers |
+| Music | 0068 | — |
+| Physical Education | 0069 | — |
+| **Science** | 0097 | 🔬 Sea of Brews |
+| Wellbeing | 0034 | — |
+
+### 10.3 Cambridge Lower Secondary Subjects (Ages 11-14)
+
+**Source:** [Cambridge Lower Secondary Curriculum](https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-lower-secondary/curriculum/)
+
+| Subject | Code | Corsair Sea |
+|---------|------|-------------|
+| Art & Design | 0073 | — |
+| Computing | 0860 | — |
+| Digital Literacy | 0082 | — |
+| **English** | 0861 | 📚 Sea of Cunning |
+| English as a Second Language | 0876 | 🀄 Sea of Whispers |
+| Global Perspectives | 1129 | — |
+| Humanities | 0839 | — |
+| **Mathematics** | 0862 | 🧮 Sea of Navigation |
+| Modern Foreign Language | 0771 | 🀄 Sea of Whispers |
+| Music | 0078 | — |
+| Physical Education | 0081 | — |
+| **Science** | 0893 | 🔬 Sea of Brews |
+| Wellbeing | 0859 | — |
+
+### 10.4 Cambridge IGCSE Subjects (Ages 14-16)
+
+**Source:** [Cambridge IGCSE Subjects](https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-upper-secondary/cambridge-igcse/subjects/)
+
+70+ subjects across 5 groups. Core academic subjects:
+
+| Subject | Code(s) | Corsair Sea |
+|---------|---------|-------------|
+| **English - First Language** | 0500, 0990 | 📚 Sea of Cunning |
+| English - Literature | 0475, 0992 | 📚 Sea of Cunning |
+| English as a Second Language | 0510, 0511, 0991, 0993 | 🀄 Sea of Whispers |
+| **Mathematics** | 0580, 0980 | 🧮 Sea of Navigation |
+| International Mathematics | 0607 | 🧮 Sea of Navigation |
+| Additional Mathematics | 0606 | 🧮 Sea of Navigation |
+| **Biology** | 0610, 0970 | 🔬 Sea of Brews |
+| **Chemistry** | 0620, 0971 | 🔬 Sea of Brews |
+| **Physics** | 0625, 0972 | 🔬 Sea of Brews |
+| Combined Science | 0653, 0973 | 🔬 Sea of Brews |
+| Co-ordinated Sciences (Double) | 0654 | 🔬 Sea of Brews |
+| Chinese (Mandarin) | 0547, 0523 | 🀄 Sea of Whispers |
+| Malay | 0546 | 🀄 Sea of Whispers |
+| Computer Science | 0478, 0984 | — |
+| Geography | 0460, 0976 | — |
+| History | 0470, 0977 | — |
+| Business Studies | 0450, 0986 | — |
+| Economics | 0455, 0987 | — |
+| Accounting | 0452, 0985 | — |
+
+### 10.5 Key URLs
+
+| Resource | URL |
+|----------|-----|
+| Cambridge Sitemap | https://www.cambridgeinternational.org/sitemap/ |
+| Cambridge Programmes | https://www.cambridgeinternational.org/programmes-and-qualifications/ |
+| Cambridge IGCSE Subjects | https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-upper-secondary/cambridge-igcse/subjects/ |
+| Cambridge Primary Curriculum | https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-primary/curriculum/ |
+| Cambridge Lower Secondary | https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-lower-secondary/curriculum/ |
+| SaveMyExams IGCSE Revision | https://www.savemyexams.com/igcse/ |
+| SaveMyExams Maths Core | https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/ |
+| SaveMyExams Biology | https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/ |
+| SaveMyExams English Language | https://www.savemyexams.com/igcse/english-language/cie/20/revision-notes/ |
