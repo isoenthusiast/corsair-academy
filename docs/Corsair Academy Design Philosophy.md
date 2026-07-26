@@ -1,6 +1,6 @@
 # Corsair Academy — Design Philosophy
 
-**Last Updated:** July 26, 2026 (v4.0.0 — Island System: Courage Challenge + Boss Fight + monthly units)
+**Last Updated:** July 26, 2026 (v5.0.0 — Curriculum rules, pass thresholds, grill me protocol)
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3 + DeepSeek AI
 
 > This is the single source of truth for all design decisions. When a new feature is proposed, it should be **grilled** (Q&A alignment), then **registered here** before building. See `CLAUDE.md` for the full development workflow.
@@ -18,7 +18,7 @@ Corsair Academy is a **pirate-themed learning platform** for kids aged 7-14. Eve
 - **Parents** are "First Mates" watching from the Captain's Quarters
 - **Admins** are "Lord Admirals" commanding the fleet
 - **XP** is measured in skulls (☠️), currency is crowns (🪙)
-- **Content** lives in seas, voyages, and trials — not worlds, quests, and challenges
+- **Content** lives in seas, voyages, islands, and trials — not worlds, quests, and challenges
 
 ### Visual Language
 
@@ -55,23 +55,27 @@ New students start with 50 🪙 and 3 Whisper Scrolls.
 
 ### Ship Upgrades (Permanent)
 
+Effects stored as JSON on `ShipUpgrade.effects`. Applied multiplicatively in trial and voyage reward APIs.
+
 | Upgrade | Cost | Effect |
 |---------|------|--------|
-| Reinforced Hull | 100 🪙 | +10% XP from all trials |
-| Crow's Nest | 200 🪙 | See trial hints before starting |
-| Treasure Map | 300 🪙 | +20% crowns from all trials |
-| Lucky Compass | 500 🪙 | 10% chance of double skulls |
-| Captain's Wheel | 1000 🪙 | Unlock all voyage difficulty levels |
+| Reinforced Hull | 300 🪙 | xpMultiplier: 1.1 (+10% XP) |
+| Crow's Nest | 500 🪙 | skullBonus: 1 (+1 skull per trial) |
+| Treasure Hold | 1000 🪙 | crownMultiplier: 1.2 (+20% crowns) |
+| Cannon Array | 2000 🪙 | hintPenaltyReduction: 1 (no skull loss for hints) |
+| Phantom Sails | 5000 🪙 | timeBonus: 0.9 |
 
 ### Daily Streak Chests
 
-Students earn streak chests for consecutive days of completing at least 1 trial:
+Tiered rewards claimed via `/api/streak/claim`. Chests are one-time per streak milestone.
 
-- Day 1: 5 🪙
-- Day 3: 10 🪙 + 1 Whisper Scroll
-- Day 7: 25 🪙 + 1 Storm Pass
-- Day 14: 50 🪙 + 1 Fortune Wind
-- Day 30: 100 🪙 + 1 Anchor Charm
+| Streak Day | Chest | Rewards |
+|-----------|-------|---------|
+| 3 | Bronze | 10 🪙 |
+| 5 | Silver | 50 🪙 + 1 Whisper Scroll |
+| 7 | Gold | 100 🪙 + 1 Storm Pass |
+| 14 | Emerald | 200 🪙 + 1 Fortune Wind |
+| 30 | Diamond | 500 🪙 + 1 Anchor Charm |
 
 ### Achievements
 
@@ -203,7 +207,7 @@ The Island system bridges syllabus-based education with gamified progression. Ea
 | Island | Position | Purpose | Questions | Pass Threshold |
 |--------|----------|---------|-----------|----------------|
 | **Courage Challenge** 🏁 | Island 0 (first) | Entry exam — tests existing competency | 10 exam-level | 80% (8/10) |
-| **Monthly Islands** 🏝️ | Islands 1-11 | Regular learning units | 5-10 each | N/A (sequential) |
+| **Monthly Islands** 🏝️ | Islands 1-11 | Regular learning units | 5 each | 60% (3/5) |
 | **Boss Fight** 👑 | Island 12 (last) | Exit exam — proves mastery | 10 exam-level | 80% (8/10) |
 
 ### Advancement Mechanics
@@ -246,6 +250,7 @@ Student enters Voyage
 | `title` | Display name | "Fractions & Decimals" |
 | `type` | regular / courage_challenge / boss_fight | regular |
 | `sortOrder` | Sequential position (0-12) | 3 |
+| `syllabusTags` | Curriculum mapping (optional) | ["IGCSE-Math-Y5", "Fractions"] |
 | `description` | Learning objectives for this island | "Add and subtract fractions with unlike denominators" |
 
 Islands are **strictly sequential** within a voyage (`sortOrder` 0-12). No branching at the island level — branching happens at the voyage level (see Voyage Branching below).
@@ -315,7 +320,7 @@ Sea of Cunning
 | `title` | Display name | "Message in a Bottle" |
 | `description` | Flavor text | "Decode secret messages & master the alphabet!" |
 | `difficulty` | 1-5 ☠️ scale | 1 |
-| `status` | Draft / Published / Deprecated | Draft |
+| `lifecycle` | Draft / Published / Deprecated | Draft |
 | `objectives` | Learning goals | "Recognize all 26 letters and their sounds" |
 | `estimatedMinutes` | Session length | 10 |
 | `tags` | Searchable labels | ["phonics", "alphabet"] |
@@ -377,7 +382,7 @@ Named cross-sea collections. Teacher applies in one click. Example: "Pirate Star
 | `/admin/users/[id]` | Edit user + soft delete/restore |
 | `/admin/classes` | Class list + create |
 | `/admin/classes/[id]` | Class detail — teachers, roster, stats |
-| `/admin/voyages` | **Split-panel curriculum manager** — left: collapsible seas/voyages nav; right: voyage detail, trials list with edit modals, AI grilling chat |
+| `/admin/voyages` | **Island-aware curriculum manager** — left: collapsible seas/voyages with prep progress (X/13 🏝️); right: scrollable island tabs (🏁0-11👑), per-island trial list with edit modals, ⚡ Prep All Islands bulk generation, AI grilling chat |
 | `/admin/kanban` | **Kanban Board** — drag-and-drop task board with 4 columns, scope badges (Class/Trial/Admin), edit modal |
 | `/admin/announcements` | System announcements — create + delete, role-targeted |
 | `/admin/invites` | Invite link generation — role + expiry, copy/revoke |
@@ -392,9 +397,9 @@ Named cross-sea collections. Teacher applies in one click. Example: "Pirate Star
 
 Task board with 4 columns (Backlog → InProgress → Done → Archive), 5 card types (FlaggedTrial, Assignment, AITrial, SupportTicket, Task), drag-and-drop, role-scoped visibility. Each card has a `KanbanScope` (Class/Trial/Admin) that controls who sees it.
 
-### Curriculum Manager v3.0
+### Curriculum Manager v4.0 — Island-Aware
 
-Split-panel layout replacing 3 separate pages. Left panel: collapsible sea accordion with voyage counts. Right panel: voyage metadata header, trials list with modal editing, AI grilling chat at bottom. Voyage editing via modal (status, difficulty, objectives, tags, skills, captain gauntlet).
+Split-panel layout with island-level management. Left panel: collapsible sea accordion with per-voyage prep indicators (X/13 🏝️). Right panel: scrollable horizontal island tab bar (🏁0-11👑) with trial count dots (●=has trials, ○=empty). Per-island trial generation with enforced counts (10 for exams, 5 for regular). ⚡ Prep All Islands bulk-generates trials for every empty island in a voyage sequentially.
 
 ### Pattern
 
@@ -408,7 +413,7 @@ Consistent admin feature pattern: Server Page + POST API + `redirect("/")` for a
 
 | Feature | Model | Purpose |
 |---------|-------|---------|
-| **B1 — Trial Generation** | DeepSeek v4-pro | Generate 3-5 trials from voyage context |
+| **B1 — Trial Generation** | DeepSeek v4-pro | Generate 3-10 trials per island (5 regular, 10 exam). Includes all 4 types: multi_choice, fill_blank, puzzle, open_ended |
 | **B2 — Tutor Chat** | DeepSeek v4-flash | "Captain Corsair" conversational tutor |
 | **B3 — Grading** | DeepSeek v4-flash | Grade open-ended answers with feedback |
 | **B4 — Adaptive Difficulty** | Rule-based | ±0.5 adjustments based on last 3-5 attempts |
@@ -497,4 +502,38 @@ Flagged AI-generated trial review at `/admin/moderation`:
 
 ---
 
-> **Related Documents:** `Corsair Academy App Design.md` (technical architecture, data model, API routes), `ProjectLessonLearnt.md` (lessons learned), `TODO.md` (task tracker), `docs/test-plans/` (feature test plans)
+> **Related Documents:** `Corsair Academy App Design.md` (technical architecture, data model, API routes), `CURRICULUM.md` (trial design rules, subject profiles, pass thresholds), `ProjectLessonLearnt.md` (lessons learned), `TODO.md` (task tracker), `docs/test-plans/` (feature test plans)
+
+---
+
+## 10. Design Process — "Grill Me Protocol"
+
+### How Design Decisions Are Made
+
+Every new feature or design question follows a structured Q&A process called the **Grill Me Protocol**:
+
+1. **Propose** — Present options with a recommended answer, citing logic and past decisions
+2. **Grill** — Ask clarifying questions to expose edge cases and align understanding
+3. **Register** — Document the decision in this file AND `CURRICULUM.md` (if content-related)
+4. **Build** — Implement only after alignment is confirmed
+
+### Recommendation Logic
+
+When proposing solutions, the recommended answer is selected using these priority rules:
+
+| Priority | Rule | Example |
+|----------|------|---------|
+| 1 | **Consistency** — match past decisions | User chose 80% for exams → recommend 80% |
+| 2 | **Syllabus alignment** — map to IGCSE/year structure | 5 trials = school week, 12 islands = months |
+| 3 | **Simplicity** — fewer models, fewer concepts | "Just another island" not "a separate BossFight entity" |
+| 4 | **Pirate theme** — fit the metaphor | "Island" not "Module", "Crowns" not "Points" |
+| 5 | **Scalability** — automate over manual | AI generation > manual content creation |
+
+### Design Values
+
+- **Student-first**: Every mechanic must benefit the learner — not the admin, not the teacher
+- **No failure**: Minimum 1 skull always awarded. Progress, not punishment
+- **Competency over seat time**: If you know it, prove it and move on
+- **Mastery before advancement**: Can't progress without genuine understanding
+- **AI as assistant**: Generates drafts, humans review and edit
+- **Pirate lens on everything**: If it doesn't sound like a pirate would say it, reframe it
