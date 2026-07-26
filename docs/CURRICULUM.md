@@ -1,6 +1,6 @@
 # Corsair Academy — Curriculum Design Rules
 
-**Last Updated:** July 26, 2026 (v1.0.0)
+**Last Updated:** July 26, 2026 (v2.0.0 — IGCSE syllabus topic trees from SaveMyExams)
 **Purpose:** Defines the rules and strategy for creating trial questions aligned to the Island learning system.
 
 ---
@@ -47,6 +47,7 @@ Default distribution for AI generation. Admin can override per island.
 | **Malay / Mandarin (Languages)** | 40% | 30% | 10% | 20% |
 
 For a 5-trial regular island, this rounds to approximately:
+
 - Math: 1-2 MC, 2 fill-blank, 1 puzzle, 0-1 open-ended
 - English: 2 MC, 1 fill-blank, 0-1 puzzle, 1-2 open-ended
 - Science: 2 MC, 1 fill-blank, 1 puzzle, 1 open-ended
@@ -92,10 +93,12 @@ Points × skulls (1-3) = XP earned. Crowns = XP × crownRate.
 Questions are standard academic content with pirate-themed flavor text. The academic rigor comes first; the pirate theme is the delivery vehicle.
 
 **Do:**
+
 - "Captain Redbeard has 24 gold coins. He gives 1/3 to his first mate. How many coins remain?"
 - "Complete the pirate oath: 'I solemnly swear to ___ the seven seas.'"
 
 **Don't:**
+
 - Force pirate jargon into every question. "Arr, me hearty, calculate ye the hypotenuse of this here triangle!" is exhausting.
 - Sacrifice clarity for theme. If a concept doesn't fit the pirate metaphor, teach it plainly.
 - Use violence or scary content. No walking the plank, no keelhauling, no ghost stories for young learners.
@@ -126,6 +129,7 @@ syllabusTags: ["IGCSE-Math-Y5-Numbers", "Fractions", "Decimals", "KS2-Year5"]
 ```
 
 Tags are:
+
 - **Optional**. Islands without tags are still valid.
 - **Searchable**. Teachers can find islands by syllabus code.
 - **Not validated**. No enforcement of tag format — freeform for flexibility across different syllabi (IGCSE, IB, National Curriculum, etc.).
@@ -167,6 +171,7 @@ AI generates trials for a specific island. The system prompt must include:
 ### 5.3 Quality Checks (Post-Generation)
 
 After AI generates trials, the system should validate:
+
 1. **Count**: Exactly the requested number of trials.
 2. **Types**: Distribution roughly matches the subject profile (±1 per type).
 3. **Answers**: Every trial has a non-empty answer.
@@ -239,3 +244,116 @@ Students always earn at least 1 skull per trial attempted. There is no "you lose
 6. **Syllabus-agnostic, syllabus-aware.** Islands work without tags, but tags enable curriculum mapping.
 7. **Consistent structure, flexible content.** Every island has the same framework but different content.
 8. **Explain everything.** Every trial has an explanation — learning happens on correct answers too.
+
+---
+
+## 9. IGCSE Syllabus Topic Trees
+
+> Source: [SaveMyExams IGCSE Revision](https://www.savemyexams.com/igcse/) — Cambridge (CIE) syllabus.
+> Each topic below maps to a **Voyage**. Sub-topics map to **Islands** (numbered sequentially).
+> Use `syllabusTags` to tag islands with the topic codes shown.
+
+### 9.1 📚 Sea of Cunning — English Language
+
+**Source:** [Cambridge (CIE) IGCSE English Language Revision Notes](https://www.savemyexams.com/igcse/english-language/cie/20/revision-notes/)
+**Exam Codes:** 0500 & 0990
+
+| # | Voyage (Topic) | Islands (Sub-Topics) | URL |
+|---|---------------|---------------------|-----|
+| 1 | **Paper 1: Reading** | Overview, Comprehension, Summary, Short-Answer Questions, Language Task, Extended Response | [Reading Notes](https://www.savemyexams.com/igcse/english-language/cie/20/revision-notes/1-paper-1-reading/) |
+| 2 | **Paper 2: Writing** | Paper 2 Overview, Directed Writing, Composition | [Writing Notes](https://www.savemyexams.com/igcse/english-language/cie/20/revision-notes/2-paper-2-writing/) |
+| 3 | **Coursework** | Assignment 1, Assignment 2, Assignment 3 | [Coursework Notes](https://www.savemyexams.com/igcse/english-language/cie/20/revision-notes/3-coursework/) |
+
+---
+
+### 9.2 🧮 Sea of Navigation — Mathematics
+
+**Source:** [Cambridge (CIE) IGCSE International Maths: Core Revision Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/)
+**Exam Code:** 0607
+**Tiers:** Core | [Extended](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/extended/revision-notes/)
+
+| # | Voyage (Topic) | Islands (Sub-Topics) | URL |
+|---|---------------|---------------------|-----|
+| 1 | **Number** | Types of Numbers, Multiples/Factors/Primes, Squares/Cubes/Roots, Reciprocals, Reading & Ordering Numbers, Operations with Numbers & Decimals, Sets | [Number Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/number/) |
+| 2 | **Algebra & Sequences** | Introduction to Algebra, Simplifying Algebraic Fractions, Roots & Indices, Expanding & Factorising Brackets, Linear Equations, Inequalities, Rearranging Formulas, Simultaneous Equations, Sequences | [Algebra Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/algebra-and-sequences/) |
+| 3 | **Coordinate Geometry & Graphs** | Coordinates & Straight Line Graphs, Using Calculators for Graphs & Equations | [Graphs Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/coordinate-geometry-and-graphs/) |
+| 4 | **Geometry** | Symmetry & Shapes, Basic Angle Properties, Angles in Polygons & Parallel Lines, Bearings, Circle Theorems | [Geometry Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/geometry/) |
+| 5 | **Lengths, Areas & Volumes** | Area & Perimeter, Circles/Arcs/Sectors, Volume & Surface Area, Congruence & Similarity | [Measure Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/lengths-areas-and-volumes/) |
+| 6 | **Pythagoras & Trigonometry** | Pythagoras, Trigonometry | [Trig Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/pythagoras-and-trigonometry/) |
+| 7 | **Transformations** | Transformations | [Transform Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/transformations/) |
+| 8 | **Probability** | Introduction to Probability, Probability Diagrams & Multiple Events | [Probability Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/probability/) |
+| 9 | **Statistics** | Averages/Ranges & Comparing Data, Statistical Diagrams, Scatter Graphs & Correlation | [Statistics Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/core/revision-notes/statistics/) |
+
+**Extended Tier** adds depth to all topics above plus additional content.
+[Extended Revision Notes](https://www.savemyexams.com/igcse/maths/cie/international-maths/23/extended/revision-notes/)
+
+---
+
+### 9.3 🔬 Sea of Brews — Science
+
+#### Biology
+
+**Source:** [Cambridge (CIE) IGCSE Biology Revision Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/)
+**Exam Codes:** 0610 & 0970
+
+| # | Voyage (Topic) | Islands (Sub-Topics) | URL |
+|---|---------------|---------------------|-----|
+| 1 | **Characteristics & Classification of Living Organisms** | Characteristics of Living Organisms, Concept & Uses of Classification Systems | [Ch.1 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/1-characteristics-and-classification-of-living-organisms/) |
+| 2 | **Organisation of the Organism** | Cell Structure & Size of Specimens | [Ch.2 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/2-organisation-of-the-organism/) |
+| 3 | **Movement into & out of Cells** | Diffusion, Osmosis & Active Transport | [Ch.3 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/3-movement-into-and-out-of-cells/) |
+| 4 | **Biological Molecules** | Biological Molecules | [Ch.4 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/4-biological-molecules/) |
+| 5 | **Enzymes** | Enzymes | [Ch.5 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/5-enzymes/) |
+| 6 | **Plant Nutrition** | Photosynthesis & Leaf Structure | [Ch.6 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/6-plant-nutrition/) |
+| 7 | **Human Nutrition** | Human Diet & Digestion | [Ch.7 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/7-human-nutrition/) |
+| 8 | **Transport in Plants** | Transport in Plants | [Ch.8 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/8-transport-in-plants/) |
+| 9 | **Transport in Animals** | Circulatory Systems, Heart & Blood Vessels | [Ch.9 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/9-transport-in-animals/) |
+| 10 | **Diseases & Immunity** | Diseases & Immunity | [Ch.10 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/10-diseases-and-immunity/) |
+| 11 | **Gas Exchange in Humans** | Gas Exchange in Humans | [Ch.11 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/11-gas-exchange-in-humans/) |
+| 12 | **Respiration** | Respiration | [Ch.12 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/12-respiration/) |
+| 13 | **Excretion in Humans** | Excretion in Humans | [Ch.13 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/13-excretion-in-humans/) |
+| 14 | **Coordination & Response** | Coordination, Response & Homeostasis | [Ch.14 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/14-coordination-and-response/) |
+| 15 | **Drugs** | Drugs in Medicine | [Ch.15 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/15-drugs/) |
+| 16 | **Reproduction** | Reproduction in Plants & Humans | [Ch.16 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/16-reproduction/) |
+| 17 | **Inheritance** | Inheritance, Genes & Cell Division | [Ch.17 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/17-inheritance/) |
+| 18 | **Variation & Selection** | Variation & Natural Selection | [Ch.18 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/18-variation-and-selection/) |
+| 19 | **Organisms & Their Environment** | Energy & Feeding Relationships | [Ch.19 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/19-organisms-and-their-environment/) |
+| 20 | **Human Influences on Ecosystems** | Human Impact: Biodiversity, Pollution & Conservation | [Ch.20 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/20-human-influences-on-ecosystems/) |
+| 21 | **Biotechnology & Genetic Modification** | Biotechnology & Genetic Modification | [Ch.21 Notes](https://www.savemyexams.com/igcse/biology/cie/23/revision-notes/21-biotechnology-and-genetic-modification/) |
+
+#### Additional Science Subjects
+
+| Subject | Source URL |
+|---------|-----------|
+| **Chemistry** | [CIE IGCSE Chemistry](https://www.savemyexams.com/igcse/chemistry/cie/23/revision-notes/) |
+| **Physics** | [CIE IGCSE Physics](https://www.savemyexams.com/igcse/physics/cie/23/revision-notes/) |
+| **Combined Science** | [CIE IGCSE Combined Science](https://www.savemyexams.com/igcse/science/cie/) |
+| **Co-ordinated Sciences (Double Award)** | [CIE Co-ordinated Sciences](https://www.savemyexams.com/igcse/science/cie/co-ordinated/) |
+
+---
+
+### 9.4 🀄 Sea of Whispers — Languages
+
+> Chinese / Malay / Additional Languages follow a similar structure to English Language:
+> Reading comprehension, Writing (directed + composition), Oral/Listening components.
+> Source structure available at [SaveMyExams IGCSE Subjects](https://www.savemyexams.com/igcse/).
+
+---
+
+### 9.5 How to Use This Mapping
+
+1. **Create a Voyage** for each numbered topic (e.g., "Number", "Algebra & Sequences")
+2. **Islands auto-generated** — admin adds syllabus tags from the table above
+3. **AI generation** uses island title + syllabus tags to create focused questions
+4. **Teachers** can search by tag (e.g., "IGCSE-Bio-Ch.6") to find relevant voyages
+5. **Difficulty** maps to the voyage level: Core=3, Extended=5; Biology chapters are IGCSE-level (difficulty 4-5)
+
+### Syllabus Tag Convention
+
+```
+Format: {Board}-{Subject}-{Chapter}
+Examples:
+  IGCSE-CIE-Math-Number
+  IGCSE-CIE-Bio-Enzymes
+  IGCSE-CIE-Eng-Reading
+  IGCSE-CIE-Math-Algebra
+```
