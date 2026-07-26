@@ -1,6 +1,6 @@
 # Project Lessons Learned — Corsair Academy & Associated Projects
 
-**Last Updated:** 2026-07-26 (Phase 5 documentation audit)
+**Last Updated:** 2026-07-26 (Kanban feature built)
 **Purpose:** Consolidated knowledge from all sessions. **Must be scanned before starting any new work.**
 
 ---
@@ -143,7 +143,19 @@
 
 ---
 
-## 📋 Design & Architecture
+## 📋 Kanban Board
+
+### Design Decisions
+- **Single table over multiple types**: `KanbanCard` with `type` enum + polymorphic `sourceTable`/`sourceId` avoids table-per-card-type explosion. Same pattern as AttachmentMapping.
+- **Native HTML5 drag-and-drop**: `onDragStart`/`onDragOver`/`onDrop` with visual feedback. Zero dependencies, works in all modern browsers. Trade-off: no touch support (mobile/tablet).
+- **Auto-archive in GET, not cron**: Done cards >30 days are archived server-side on next GET request. Simpler than cron, but means archive timing depends on page visits.
+- **5-card pagination**: Show 5 cards per column, "Show More" button reveals all. Prevents board overload for large card sets while keeping initial view clean.
+- **Role-scoped queries**: Admin=all, Teacher=own students via ClassTeacher→StudentClass, Parent=linked children via StudentParent. Single API, 3 different query shapes.
+- **Prisma `@relation` naming for dual FK to User**: `assignee` (KanbanAssigned) and `creator` (KanbanCreated) both point to User. Without explicit relation names, Prisma would reject the ambiguous relation.
+
+### Lessons
+- **Drag-and-drop state sync**: After `onDrop`, optimistic UI update (move card in local state), then PATCH API. If API fails, revert local state. Prevents UI lag.
+- **Enums need annotation in Prisma 7**: `@map("KanbanType")` on enum to match DB naming convention, or let Prisma auto-generate PascalCase. Our enums map to native Postgres enums for type safety.
 
 ### Patterns
 - **Grill-with-docs before building**: settle specs in Q&A, capture in CONTEXT.md + ADRs
