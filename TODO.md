@@ -30,20 +30,24 @@
 >
 > Sequenced backlog from the 2026-07-26 audit. Complete each block before starting the next.
 
-### Block 1 — Pre-Deploy Hardening (must finish before next deploy)
+### Block 1 — Pre-Deploy Hardening ✅
 
-- [ ] **H1.** Remove `npx tsx prisma/seed.ts` from `railway.toml` preDeployCommand
-- [ ] **H2.** Enforce account status in `auth.ts` — reject `status !== "Active"` or `deletedAt !== null`
-- [ ] **H3.** Add forced password change flow — `/change-password` page + `mustChangePassword` enforcement
-- [ ] **H4.** Use session `userId` in `/api/trials/attempt` (remove body `userId`)
-- [ ] **H5.** Use session `userId` in `/api/shop/buy` (remove form `userId`)
-- [ ] **H6.** Use session `userId` in `/api/shop/buy-upgrade` (remove form `userId`)
-- [ ] **H7.** Use session `userId` in `/api/voyages/complete` (remove body `userId`)
-- [ ] **H8.** Add admin auth guards to `/api/admin/economy` and `/api/admin/settings`
-- [ ] **H9.** Prevent admin self-lockout in `/api/admin/users/update`
-- [ ] **H10.** Fix `/class/page.tsx` hardcoded redirect (use `/` or render Link)
-- [ ] **H11.** Run `npm run build` locally and fix all TS errors
-- [ ] **H12.** Add `scripts/test-security.ts` — verify userId isolation + status enforcement
+- [x] **H1.** Remove `npx tsx prisma/seed.ts` from `railway.toml` preDeployCommand
+- [x] **H2.** Enforce account status in `auth.ts` — reject `status !== "Active"` or `deletedAt !== null`
+- [x] **H3.** Add forced password change flow — `/change-password` page + `mustChangePassword` enforcement
+- [x] **H4.** Use session `userId` in `/api/trials/attempt` (remove body `userId`)
+- [x] **H5.** Use session `userId` in `/api/shop/buy` (remove form `userId`)
+- [x] **H6.** Use session `userId` in `/api/shop/buy-upgrade` (remove form `userId`)
+- [x] **H7.** Use session `userId` in `/api/voyages/complete` (remove body `userId`)
+- [x] **H8.** Add admin auth guards to `/api/admin/economy` and `/api/admin/settings`
+- [x] **H9.** Prevent admin self-lockout in `/api/admin/users/update`
+- [x] **H10.** Fix `/class/page.tsx` hardcoded redirect (use `/` or render Link)
+- [x] **H11.** Run `npm run build` locally and fix all TS errors
+- [x] **H12.** Add `scripts/test-security.ts` — verify userId isolation + status enforcement
+
+> **Validation:** `npm run build` passed; `npx tsx scripts/test-security.ts` = 9/9 ✅
+
+### Block 2 — Core Economy & Settings (current)
 
 ### Block 2 — Core Economy & Settings
 
