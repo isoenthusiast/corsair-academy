@@ -1,6 +1,6 @@
 # Corsair Academy — App Design
 
-**Last Updated:** July 26, 2026 (v3.0.0 — Consolidated from APP_DESIGN.md + SETUP.md + CONTEXT.md)
+**Last Updated:** July 26, 2026 (v4.0.0 — Island system, syllabus-driven curriculum)
 **Repo:** <https://github.com/isoenthusiast/corsair-app>
 **Production:** <https://corsair-academy-production.up.railway.app>
 
@@ -43,8 +43,9 @@
 |-------|---------|------------|
 | **User** | All user types | name, username, passwordHash, role, crowns, pirateRank, status, deletedAt |
 | **Sea** | Topic area | name, icon, description, color, sortOrder |
-| **Voyage** | Lesson/unit | seaId, title, difficulty, status, objectives, estimatedMinutes, tags[], skills[], captainGauntlet |
-| **Trial** | Question/exercise | voyageId, type, question, options(JSON), answer, explanation, hint, points, difficulty |
+| **Voyage** | IGCSE Topic | seaId, title, difficulty, lifecycle, objectives, estimatedMinutes, tags[], skills[], captainGauntlet, requiredVoyageId |
+| **Island** | Sub-topic unit | voyageId, title, type (regular/courage_challenge/boss_fight), sortOrder, syllabusTags[] |
+| **Trial** | Question/exercise | islandId, type, question, options(JSON), answer, explanation, hint, points, difficulty, aiGenerated |
 | **TrialAttempt** | Student answer | trialId, userId, answer, correct, skulls, hintsUsed, timeSpent |
 | **TrialVersion** | Edit history | trialId, versionNumber, question, options, answer, etc. |
 
@@ -68,8 +69,9 @@
 | **Streak** | Daily streak tracking |
 | **DailyChestClaim** | Streak chest rewards |
 | **SeaCharm** | Power-up inventory (4 types) |
-| **ShipUpgrade** | Upgrade definitions |
+| **ShipUpgrade** | Upgrade definitions with effects (JSON) |
 | **UserShipUpgrade** | Junction: user ↔ upgrade |
+| **UserIslandProgress** | Per-user island tracking (status, trialsCompleted, skulls, attemptCount) |
 
 ### Admin & AI Models
 
@@ -79,6 +81,7 @@
 | **InviteLink** | Time-limited account creation links |
 | **AuditLog** | Admin action logging |
 | **LoginHistory** | Login attempt tracking |
+| **AIUsageLog** | AI cost/usage tracking (prompt/completion tokens, estimated cost) |
 | **KanbanCard** | Task board with drag-and-drop |
 | **AIContext** | AI conversation transcripts |
 | **VoyageBundle** | Curriculum template bundles |
@@ -90,7 +93,8 @@
 |------|--------|
 | `Role` | Student, Teacher, Parent, Admin |
 | `TrialType` | multi_choice, fill_blank, puzzle, open_ended |
-| `VoyageStatus` | Draft, Published, Deprecated |
+| `VoyageLifecycle` | Draft, Published, Deprecated |
+| `IslandType` | regular, courage_challenge, boss_fight |
 | `KanbanType` | FlaggedTrial, Assignment, AITrial, SupportTicket, Task |
 | `KanbanScope` | Class, Trial, Admin |
 | `KanbanStatus` | Backlog, InProgress, Done, Archive |
@@ -132,7 +136,7 @@
 | `/admin/classes` | Class management |
 | `/admin/classes/new` | Create class |
 | `/admin/classes/[id]` | Class detail |
-| `/admin/voyages` | **Split-panel curriculum manager** (v3.0) |
+| `/admin/voyages` | **Island-aware curriculum manager** (v4.0) — scrollable island tabs, per-island trial management, ⚡ Prep All Islands |
 | `/admin/kanban` | Kanban board (v2.8) |
 | `/admin/announcements` | System announcements |
 | `/admin/invites` | Invite links |

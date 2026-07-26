@@ -1,6 +1,6 @@
 # Corsair Academy — Design Philosophy
 
-**Last Updated:** July 26, 2026 (v5.0.0 — Curriculum rules, pass thresholds, grill me protocol)
+**Last Updated:** July 26, 2026 (v6.0.0 — Syllabus-driven curriculum, topic-driven islands, IGCSE content pipeline)
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3 + DeepSeek AI
 
 > This is the single source of truth for all design decisions. When a new feature is proposed, it should be **grilled** (Q&A alignment), then **registered here** before building. See `CLAUDE.md` for the full development workflow.
@@ -190,25 +190,29 @@ Admin generates HMAC-signed token → clears session → logs in as student. Ban
 
 ## 4. Curriculum Philosophy
 
-### Structure (v4.0 — Island System)
+### Structure (v6.0 — Syllabus-Driven Islands)
 
 ```
 Sea (Subject Area, e.g., Mathematics)
-└── Voyage (School Year, e.g., Year 1-11, mapping to IGCSE/National Syllabus)
+└── Voyage (IGCSE Topic, e.g., "Number", "Enzymes", "Reading")
     ├── Island 0: 🏁 Courage Challenge (Entry Exam — 10 questions)
-    ├── Island 1-11: Monthly Units (5-10 trials each, sequential)
-    └── Island 12: 👑 Boss Fight (Exit Exam — 10 questions)
+    ├── Island 1-N: Sub-Topic Units (5 trials each, sequential, count = syllabus sub-topics)
+    └── Island N+1: 👑 Boss Fight (Exit Exam — 10 questions)
 ```
+
+### Content Strategy: Topic-Driven Islands
+
+The syllabus defines the structure — we don't force 12 arbitrary months. Each Voyage = one IGCSE Topic. Islands = the sub-topics within that topic (1-12 per voyage, depending on the topic's breadth).
 
 ### Island System — Core Mechanics
 
-The Island system bridges syllabus-based education with gamified progression. Each voyage represents a school year; islands represent monthly units within that year. Two special islands gate advancement:
+The Island system bridges syllabus-based education with gamified progression. Two special islands gate advancement:
 
 | Island | Position | Purpose | Questions | Pass Threshold |
 |--------|----------|---------|-----------|----------------|
 | **Courage Challenge** 🏁 | Island 0 (first) | Entry exam — tests existing competency | 10 exam-level | 80% (8/10) |
-| **Monthly Islands** 🏝️ | Islands 1-11 | Regular learning units | 5 each | 60% (3/5) |
-| **Boss Fight** 👑 | Island 12 (last) | Exit exam — proves mastery | 10 exam-level | 80% (8/10) |
+| **Regular Islands** 🏝️ | Islands 1-N | Sub-topic learning units | 5 each | 60% (3/5) |
+| **Boss Fight** 👑 | Last island | Exit exam — proves mastery | 10 exam-level | 80% (8/10) |
 
 ### Advancement Mechanics
 
@@ -223,13 +227,13 @@ Student enters Voyage
     │       │
     │       └─ <80% FAIL → Play through islands
     │              │
-    │              ├─→ 🏝️ Island 1 → 2 → ... → 11
+    │              ├─→ 🏝️ Island 1 → 2 → ... → N
     │              │
-    │              └─→ 👑 Boss Fight (Island 12)
+    │              └─→ 👑 Boss Fight (last island)
     │                      │
     │                      ├─ 80%+ PASS → Unlock next voyage
     │                      │
-    │                      └─ <80% FAIL → Repeat all islands (1-11)
+    │                      └─ <80% FAIL → Repeat all islands (1-N)
     │                                     AI-generated variant questions
     │                                     Unlimited attempts
 ```
@@ -246,14 +250,32 @@ Student enters Voyage
 
 | Field | Purpose | Example |
 |-------|---------|---------|
-| `voyageId` | Parent voyage | Year 5 Mathematics |
-| `title` | Display name | "Fractions & Decimals" |
+| `voyageId` | Parent voyage | "Number" (IGCSE Math topic) |
+| `title` | Display name | "Types of Numbers" |
 | `type` | regular / courage_challenge / boss_fight | regular |
-| `sortOrder` | Sequential position (0-12) | 3 |
-| `syllabusTags` | Curriculum mapping (optional) | ["IGCSE-Math-Y5", "Fractions"] |
-| `description` | Learning objectives for this island | "Add and subtract fractions with unlike denominators" |
+| `sortOrder` | Sequential position (0 to N+1) | 3 |
+| `syllabusTags` | Curriculum mapping (optional) | ["IGCSE-CIE-Math-Number", "Types of Numbers"] |
+| `description` | Learning objectives for this island | "Identify and classify different types of numbers" |
 
-Islands are **strictly sequential** within a voyage (`sortOrder` 0-12). No branching at the island level — branching happens at the voyage level (see Voyage Branching below).
+Islands are **strictly sequential** within a voyage (`sortOrder` 0 to N+1). No branching at the island level — branching happens at the voyage level (see Voyage Branching below).
+
+### Syllabus-Driven Content Pipeline
+
+The `scripts/seed-curriculum.ts` script generates the full curriculum from IGCSE topic trees:
+
+- **33 voyages** across 3 seas (9 Math, 21 Biology, 3 English)
+- **135 islands** (CC + regular + Boss per voyage)
+- **Voyage chains** via `requiredVoyageId` within each sea
+- Run: `npx tsx scripts/seed-curriculum.ts` — idempotent, skips existing content
+- With AI: generates ~700 trials via DeepSeek
+
+### Voyage = IGCSE Topic
+
+| Subject | Example Voyages | Island Count |
+|---------|----------------|--------------|
+| Mathematics | Number, Algebra & Sequences, Geometry, Probability, Statistics | 3-12 per voyage |
+| Biology | Enzymes, Human Nutrition, Transport in Animals, Reproduction | 1-2 per voyage |
+| English | Reading Comprehension, Writing Skills, Coursework | 2-6 per voyage |
 
 ### Trial Structure (Updated)
 
