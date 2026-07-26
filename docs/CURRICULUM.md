@@ -1,6 +1,6 @@
 # Corsair Academy — Curriculum Design Rules
 
-**Last Updated:** July 26, 2026 (v2.0.0 — IGCSE syllabus topic trees from SaveMyExams)
+**Last Updated:** July 26, 2026 (v3.0.0 — Syllabus-driven content strategy)
 **Purpose:** Defines the rules and strategy for creating trial questions aligned to the Island learning system.
 
 ---
@@ -10,8 +10,8 @@
 | Game Concept | Educational Concept | Description |
 |-------------|-------------------|-------------|
 | **Sea** | Subject | Math, English, Science, Malay/Mandarin |
-| **Voyage** | Stage / School Year | Maps to IGCSE Year 1-11. Represents a full academic year of content. |
-| **Island** | Monthly Unit | ~12 per voyage plus entry/exit exams. Not necessarily mapped to specific syllabus modules — thematically grouped within the voyage. |
+| **Voyage** | IGCSE Topic | One topic within a subject (e.g., "Number", "Enzymes", "Reading"). 3-21 per subject per year. |
+| **Island** | Sub-Topic | Sub-topic within a voyage. Count = syllabus sub-topic count (3-12 per voyage). |
 | **Trial** | Assessment Question | Evaluates understanding of island content. Pass/fail determines island completion. |
 
 ### Island Types
@@ -19,8 +19,49 @@
 | Type | Position | Trials | Pass Threshold | Purpose |
 |------|----------|--------|---------------|---------|
 | `courage_challenge` | Island 0 (first) | 10 | ≥80% (8/10) | Entry exam — skip voyage if competent |
-| `regular` | Islands 1-11 | 5 | ≥60% (3/5) | Monthly learning unit |
-| `boss_fight` | Island 12 (last) | 10 | ≥80% (8/10) | Exit exam — master voyage to advance |
+| `regular` | Islands 1-N | 5 | ≥60% (3/5) | Sub-topic learning unit |
+| `boss_fight` | Last island | 10 | ≥80% (8/10) | Exit exam — master voyage to advance |
+
+### Content Strategy: Topic-Driven Islands
+
+**Voyage = IGCSE Topic, Island = Sub-Topic.** The syllabus defines the structure — we don't force 12 arbitrary months.
+
+| Subject | Voyage (Topic) | Example Islands (Sub-Topics) |
+|---------|---------------|------------------------------|
+| Mathematics | Number | Types of Numbers, Multiples/Factors/Primes, Squares/Cubes/Roots, Reciprocals, Sets |
+| Mathematics | Algebra & Sequences | Introduction to Algebra, Linear Equations, Inequalities, Simultaneous Equations, Sequences |
+| Mathematics | Geometry | Symmetry & Shapes, Angle Properties, Polygons & Parallel Lines, Bearings, Circle Theorems |
+| Biology | Enzymes | Enzymes |
+| Biology | Human Nutrition | Human Diet & Digestion |
+| Biology | Transport in Animals | Circulatory Systems, Heart & Blood Vessels |
+| English | Reading | Overview, Comprehension, Summary, Short-Answer, Language Task, Extended Response |
+| English | Writing | Directed Writing, Composition |
+
+### Year Progression (Voyage Chains)
+
+Within each Sea (subject), voyages chain via `requiredVoyageId` across school years:
+
+```
+Sea of Navigation (Mathematics)
+├── Voyage: "Number" (Year 1-2) → CC → I1-I3 → Boss → unlocks →
+├── Voyage: "Algebra & Sequences" (Year 3-4) → CC → I1-I9 → Boss → unlocks →
+├── Voyage: "Geometry" (Year 5-6) → CC → I1-I5 → Boss → unlocks →
+├── Voyage: "Coordinate Geometry & Graphs" (Year 7-9) → CC → I1-I2 → Boss → unlocks →
+├── Voyage: "Pythagoras & Trigonometry" (Year 10-11) → CC → I1-I2 → Boss → IGCSE Complete!
+└── ...
+```
+
+Student enters Year 5 → sees all Year 5 voyages → can take Courage Challenge on any → skip if competent → play through if not. Boss Fight gates advancement to next year.
+
+### Island Count by Voyage
+
+| Voyage Type | Regular Islands | Notes |
+|------------|----------------|-------|
+| Small topic (e.g., Enzymes) | 1-3 | Minimal sub-topics |
+| Medium topic (e.g., Geometry) | 4-6 | Standard IGCSE topic |
+| Large topic (e.g., Algebra & Sequences) | 7-12 | Broad topic with many sub-topics |
+
+**Always:** Courage Challenge (Island 0) + Boss Fight (last island) + regular islands (1-N).
 
 ---
 
@@ -210,20 +251,30 @@ Students always earn at least 1 skull per trial attempted. There is no "you lose
 
 ## 7. Admin Curriculum Workflow
 
-### 7.1 Setting Up a New Voyage
+### 7.1 Setting Up a New Voyage (IGCSE Topic)
 
-1. Admin creates voyage → 14 islands auto-generated (0=Courage Challenge, 1-12=regular, 13=Boss Fight)
-2. Admin sets voyage difficulty, description, objectives
-3. Admin optionally adds syllabus tags to islands
-4. Admin uses **⚡ Prep All Islands** to generate trials for all empty islands, OR generates per-island with custom counts
+1. **Choose the topic** from the IGCSE syllabus tree (see Section 9 or Cambridge Section 10)
+2. **Create the voyage** — title = IGCSE topic name (e.g., "Number", "Enzymes")
+3. **Set difficulty** — maps to year level (1-2=Primary, 3=Upper Primary, 4=Lower Secondary, 5=IGCSE)
+4. **Add description & objectives** — what the student should master
+5. **Tag islands with syllabus codes** — use the convention `IGCSE-CIE-{Subject}-{Topic}`
+6. **⚡ Prep All Islands** — generates 5 trials for each island, 10 for Courage Challenge & Boss Fight
+7. **Review and edit** — adjust any AI-generated trials that need correction
 
-### 7.2 Editing Existing Content
+### 7.2 Renaming Existing Voyages to IGCSE Topics
 
-1. Admin selects voyage → sees island tabs
-2. Clicks an island → sees its trials
-3. Can edit individual trials (question, answer, type, points, explanation, hint)
-4. Each edit creates a TrialVersion snapshot (version history preserved)
-5. Can rollback a trial to any previous version
+Existing voyages have generic titles ("Message in a Bottle", "Treasure Counting"). Rename to match IGCSE:
+
+| Current Title | New IGCSE Title | Sea | Difficulty |
+|--------------|----------------|-----|------------|
+| Message in a Bottle | Reading Comprehension | 📚 Sea of Cunning | 2 |
+| The Captain's Log | Writing Skills | 📚 Sea of Cunning | 3 |
+| Treasure Counting | Number | 🧮 Sea of Navigation | 2 |
+| Plunder Addition | Addition & Subtraction | 🧮 Sea of Navigation | 2 |
+| Multiplication Armada | Multiplication | 🧮 Sea of Navigation | 3 |
+| Division Depths | Division | 🧮 Sea of Navigation | 3 |
+| Island Bestiary | Characteristics & Classification | 🔬 Sea of Brews | 3 |
+| Storm Chasers | Weather & Climate | 🔬 Sea of Brews | 3 |
 
 ### 7.3 AI-Assisted Refinement
 
