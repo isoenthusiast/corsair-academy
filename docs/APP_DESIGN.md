@@ -1,6 +1,9 @@
 # Corsair Academy — Technical Design & Architecture
 
-**Last Updated:** July 26, 2026 (v2.6.0 — Phase 4 Validation: 28/28 tests pass)
+**Last Updated:** July 26, 2026 (v2.7.0 — Deployed to Railway 🚀)
+**Production URL:** [`https://corsair-academy-production.up.railway.app`](https://corsair-academy-production.up.railway.app)
+**App Repo:** [`isoenthusiast/corsair-app`](https://github.com/isoenthusiast/corsair-app)
+**Project Repo:** [`isoenthusiast/corsair-academy`](https://github.com/isoenthusiast/corsair-academy)
 **Code Name:** "Corsair Academy"
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3
 

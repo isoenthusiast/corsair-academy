@@ -1,6 +1,6 @@
 # Corsair Academy — User Management Philosophy
 
-**Last Updated:** July 25, 2026 (v2.1.0)
+**Last Updated:** July 26, 2026 (v2.6.0 — Impersonation + Invite System)
 **Related:** `ADMIN_PHILOSOPHY.md`, `LEARNING_PHILOSOPHY.md`, `APP_DESIGN.md`
 
 ---
@@ -57,6 +57,21 @@ Admin generates link → /invite/{token}
   → Account created with pre-selected role
   → Link expires in 7 days or on first use
 ```
+
+### Flow C: Student Impersonation (Admin Only)
+
+```
+Admin views user → clicks "🏴 Login as [name]"
+  → API generates HMAC(userId.expiry) signed with AUTH_SECRET
+  → Admin session cleared, redirected to /?impersonate=<token>
+  → Login page auto-submits _impersonate_ credentials
+  → JWT stores impersonatedBy field
+  → All pages show "Impersonating [name] — Return to Admiral" banner
+  → "Return to Admiral" signs out impersonated session
+  → Token expires in 60 seconds
+```
+
+**Security:** Cannot impersonate admin accounts. HMAC signature prevents token forgery. Short expiry prevents replay attacks.
 
 ### Flow C: Bulk CSV Import
 

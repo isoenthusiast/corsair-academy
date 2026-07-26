@@ -1,6 +1,6 @@
 # Corsair Academy — Game Design Philosophy
 
-**Last Updated:** July 25, 2026 (v2.0.0 — Pirate Overhaul)
+**Last Updated:** July 26, 2026 (Reviewed — accurate) (v2.0.0 — Pirate Overhaul)
 **Code Name:** "Corsair Academy" (formerly "QuestLab")
 
 ---

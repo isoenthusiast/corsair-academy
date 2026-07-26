@@ -1,6 +1,6 @@
 # Corsair Academy — Admin Design Philosophy
 
-**Last Updated:** July 25, 2026 (v2.1.0)
+**Last Updated:** July 26, 2026 (v2.6.0 — All admin features built & deployed)
 **Related:** `GAME_PHILOSOPHY.md`, `LEARNING_PHILOSOPHY.md`, `APP_DESIGN.md`
 
 ---
@@ -26,15 +26,24 @@ The Admin is the **system owner** — full visibility, full control. They manage
 |------|---------|----------|
 | `/admin` | Dashboard — overview stats, quick-action cards | P0 (built) |
 | `/admin/users` | User table — CRUD: create, edit role, reset password, adjust crowns/XP | P1 |
-| `/admin/users/[id]` | Single user editor | P1 |
-| `/admin/classes` | Class manager — create, assign teachers, enroll students | P1 |
-| `/admin/classes/[id]` | Class detail — roster, co-teachers, assignments | P2 |
-| `/admin/voyages` | Curriculum list — toggle active, adjust points, reorder | P1 |
-| `/admin/voyages/[id]` | Voyage editor — edit trials inline | P2 |
+| `/admin/users/new` | Create user — name, username, password, role, status, crowns | P1 |
+| `/admin/announcements` | System announcements — create + delete, role-targeted, expiry, map banner | P2 |
+| `/admin/invites` | Invite links — generate (role + expiry), copy URL, revoke | P2 |
+| `/admin/classes/new` | Create class — name, multi-teacher checkboxes | P1 |
+| `/admin/classes/[id]` | Class detail admin — teachers, student roster, stats | P2 |
+| `/admin/voyages/[id]/trials/[id]` | Trial editor — form, live preview, version history | P2 |
+| `/admin/voyages/[id]` | Voyage editor — metadata + trials + AI generate button | P2 |
 | `/admin/economy` | Economy panel — prices, rates, XP thresholds | P2 |
-| `/admin/parents` | Parent linking — search student, link parents, enforce 2-parent limit | P1 |
+| `/admin/parents` | Parent linking — search student, link parents, 2-parent limit | P1 |
 | `/admin/analytics` | Analytics suite — completion %, avg skulls, class comparison | P2 |
-| `/admin/templates` | Curriculum templates — create, edit, one-click apply to class | P2 |
+| `/admin/moderation` | Flagged trial queue — approve/remove | P2 |
+| `/admin/settings` | System settings — app identity, maintenance mode, feature flags | P2 |
+| `/admin/templates` | Curriculum templates — create, edit, apply to class | P2 |
+
+### Phase 3 Additions (July 26)
+- **Student Impersonation**: Admin can "Login as [student]" from user edit page. Uses HMAC-signed token with 60s expiry. Banner shows on all pages. "Return to Admiral" button restores admin session.
+- **System Announcements**: Create announcements with role targeting and expiry. Displayed as banner on student/teacher map pages.
+- **Invite Links**: Generate time-limited invite links by role. Copy URL to clipboard. Revoke unused links. Acceptance flow creates user with correct role + starting items.
 
 ---
 

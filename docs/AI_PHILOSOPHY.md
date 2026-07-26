@@ -1,6 +1,6 @@
 # Corsair Academy — AI Design Philosophy
 
-**Last Updated:** July 25, 2026 (v2.1.0)
+**Last Updated:** July 26, 2026 (v2.6.0 — All 5 AI features built & deployed)
 **Models:** `deepseek-v4-pro` (generation, adaptation, personalization) + `deepseek-v4-flash` (tutoring, grading)
 **Related:** `ADMIN_PHILOSOPHY.md`, `LEARNING_PHILOSOPHY.md`
 
@@ -22,13 +22,20 @@ AI is the **silent crew member** — it generates, grades, tutors, and adapts. S
 
 ## 2. Feature → Model Mapping
 
-| Feature | Model | Why | Priority |
-|---------|-------|-----|----------|
-| 🎲 AI-Generated Trials | `deepseek-v4-pro` | Creative generation needs highest quality output | P1 |
-| 🧠 AI Tutor Chat | `deepseek-v4-flash` | Real-time conversation needs low latency | P1 |
-| 📝 AI Grading | `deepseek-v4-flash` | Evaluative scoring needs speed, not creativity | P2 |
-| 📈 Adaptive Difficulty | `deepseek-v4-pro` | Pattern analysis across trial history needs reasoning | P2 |
-| 🎯 Personalization | `deepseek-v4-pro` | Theme/subject profiling needs analytical depth | P3 |
+| Feature | Model | Why | Status |
+|---------|-------|-----|--------|
+| 🎲 AI-Generated Trials | `deepseek-v4-pro` | Creative generation needs highest quality output | ✅ Built |
+| 🧠 AI Tutor Chat | `deepseek-v4-flash` | Real-time conversation needs low latency | ✅ Built |
+| 📝 AI Grading | `deepseek-v4-flash` | Evaluative scoring needs speed, not creativity | ✅ Built |
+| 📈 Adaptive Difficulty | Rule-based (no AI) | 3-perfect → +0.5, 5-weak → -0.5 | ✅ Built |
+| 🎯 Personalization | Rule-based (no AI) | Sea progress + avg skulls → recommendation | ✅ Built |
+
+**Implementation Summary (July 26):**
+- **Trial Generation**: `POST /api/admin/voyages/[id]/generate-trials` — structured prompt with voyage context → DeepSeek → validate → save. UI: GenerateTrialsButton with 3/5 count selector.
+- **Tutor Chat**: `POST /api/tutor/chat` — "Captain Corsair" persona, hints not answers. UI: floating 🦜 button → slide-out chat panel on voyage page.
+- **Grading**: `POST /api/trials/grade` — evaluates open-ended answers. Fallback on API error. Empty answers handled locally.
+- **Adaptive**: `POST /api/adaptive/check` — called non-blocking after each trial. ±0.5 difficulty steps, bounds 1-5.
+- **Personalization**: `GET /api/personalize/recommend` — sea completion % + avg skull performance. UI: RecommendedVoyage card on map.
 
 **Principle:** `v4-pro` for batch/analytical tasks where quality matters. `v4-flash` for real-time user-facing interactions where latency matters.
 

@@ -1,6 +1,6 @@
 # Corsair Academy — Curriculum & Voyage Philosophy
 
-**Last Updated:** July 25, 2026 (v2.1.0)
+**Last Updated:** July 26, 2026 (Reviewed — accurate) (v2.1.0)
 **Related:** `ADMIN_PHILOSOPHY.md`, `LEARNING_PHILOSOPHY.md`, `AI_PHILOSOPHY.md`
 
 ---

@@ -1,5 +1,7 @@
 # Gamified Learning — Design Philosophy & Domain Language
 
+**Last Reviewed:** July 26, 2026 (Phase 5 documentation audit — accurate)
+
 ## Core Purpose
 
 A platform that makes learning **irresistible** for kids. Not "educational software" — a game where the side effect is knowledge.

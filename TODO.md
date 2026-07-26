@@ -27,21 +27,21 @@
 >
 > Catch up docs while implementation is fresh, right before deploy.
 
-- [ ] **D1.** Update `APP_DESIGN.md` — add Phase 2 routes + API routes
-- [ ] **D2.** Update route map table with all 25+ pages
-- [ ] **D3.** Register lessons learned from Phase 2 build
-- [ ] **D4.** Review & update PHILOSOPHY docs for accuracy
+- [x] **D1.** Update `APP_DESIGN.md` — v2.7.0 with deploy URL, all routes + APIs
+- [x] **D2.** Update route map table — 28 pages, 36 API routes categorized
+- [x] **D3.** Register lessons learned — 31 lessons in ProjectLessonLearnt.md
+- [x] **D4.** Review & update PHILOSOPHY docs — all 7 docs at v2.6.0+, Phase 3 features added
 
-## Phase 6 — Deploy
+## Phase 6 — Deploy (complete! 🚀)
 >
-> Railway auth has failed before — may need troubleshooting.
+> App is live at https://corsair-academy-production.up.railway.app
 
-- [ ] **C1.** Railway CLI login (`railway login` or `$env:RAILWAY_TOKEN`)
-- [ ] **C2.** Railway project link (`railway link`)
-- [ ] **C3.** Provision production PostgreSQL on Railway
-- [ ] **C4.** Set production environment variables
-- [ ] **C5.** First successful `railway up` deploy
-- [ ] **C6.** Verify all pages on production URL
+- [x] **C1.** Railway CLI login (`railway login` — authenticated via browser)
+- [x] **C2.** Railway project link (`railway link` → stunning-friendship)
+- [x] **C3.** Provision production PostgreSQL on Railway (Postgres Online)
+- [x] **C4.** Set production environment variables (DATABASE_URL, AUTH_SECRET, AUTH_URL, DEEPSEEK keys)
+- [x] **C5.** First successful `railway up` deploy (Online, auto-deploys from isoenthusiast/corsair-app)
+- [x] **C6.** Verify all pages on production URL (login page verified)
 
 ## Phase 7 — AI Features- [x] **B1.** AI Trial Generation — DeepSeek v4-pro, GenerateTrialsButton, 3-5 trials at a time
 

@@ -1,6 +1,6 @@
 # Project Lessons Learned — Corsair Academy & Associated Projects
 
-**Last Updated:** 2026-07-26
+**Last Updated:** 2026-07-26 (Phase 5 documentation audit)
 **Purpose:** Consolidated knowledge from all sessions. **Must be scanned before starting any new work.**
 
 ---
@@ -96,6 +96,8 @@
 - **Set production secrets in Railway Dashboard → Variables**, not in repo files
 - **`.env.example`** with placeholders is safe to commit — documents required vars without exposing values
 - **Generated Prisma client in repo** means build doesn't need DATABASE_URL at build time — reduces attack surface
+- **Use Railway CLI for variable management**: `railway variables set KEY="value"` — the web UI's CodeMirror editor is fragile to programmatic manipulation. Setting `cmContent.textContent` on a CodeMirror parent element collapses all `.cm-line` elements into a single malformed text node
+- **Railway reference variables**: `${{Postgres.DATABASE_PUBLIC_URL}}` auto-resolves to the actual connection string. Use public URL for preDeployCommand if private network isn't available yet
 
 ---
 
@@ -149,6 +151,8 @@
 - **Document relationships**: cross-reference between philosophy docs, APP_DESIGN.md as central hub
 - **Consistent admin feature pattern**: Server Page + POST API + `redirect()` — no client state needed
 - **`Crypto.randomUUID()`** for secure tokens — URL-safe, globally unique, no library needed
+- **Documentation audit as final phase**: after major feature phases, audit all docs for version numbers and feature completeness. Our docs were at v2.1.0 while app was at v2.7.0. ADMIN_PHILOSOPHY.md was missing Phase 3 features. AI_PHILOSOPHY.md still listed features as planned, not built. USER_PHILOSOPHY.md was missing impersonation flow
+- **CLAUDE.md**: used as agent instructions file — place in project root for AI agent context
 
 ---
 
