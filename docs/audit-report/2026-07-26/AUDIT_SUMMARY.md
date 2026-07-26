@@ -64,20 +64,22 @@ Corsair Academy is a functional Next.js 16 + Prisma 7 pirate-themed learning pla
 
 ## Document Deliverables
 
-This audit report folder contains:
+This audit report is organized under `docs/audit-report/2026-07-26/`. The folder contains:
 
 | File | Purpose |
 |------|---------|
-| [AUDIT_SUMMARY.md](AUDIT_SUMMARY.md) | This high-level overview |
-| [FEATURE_GAPS.md](FEATURE_GAPS.md) | Missing/incomplete features with severity |
-| [ROUTE_API_GAPS.md](ROUTE_API_GAPS.md) | Route and API discrepancies |
-| [DATA_MODEL_GAPS.md](DATA_MODEL_GAPS.md) | Schema vs. design document gaps |
-| [SECURITY_ISSUES.md](SECURITY_ISSUES.md) | Auth, authorization, and security findings |
-| [DESIGN_INCONSISTENCIES.md](DESIGN_INCONSISTENCIES.md) | Philosophical/UX mismatches |
-| [TEST_COVERAGE_GAPS.md](TEST_COVERAGE_GAPS.md) | Test plan vs. implementation gaps |
-| [DEPLOYMENT_CONFIG_ISSUES.md](DEPLOYMENT_CONFIG_ISSUES.md) | Railway, preDeploy, and config risks |
-| [DOCUMENTATION_GAPS.md](DOCUMENTATION_GAPS.md) | Inconsistencies across docs and code |
-| [RECOMMENDED_ROADMAP.md](RECOMMENDED_ROADMAP.md) | Prioritized fix plan |
+| [AUDIT_SUMMARY.md](2026-07-26/AUDIT_SUMMARY.md) | This high-level overview |
+| [FEATURE_GAPS.md](2026-07-26/FEATURE_GAPS.md) | Missing/incomplete features with severity |
+| [ROUTE_API_GAPS.md](2026-07-26/ROUTE_API_GAPS.md) | Route and API discrepancies |
+| [DATA_MODEL_GAPS.md](2026-07-26/DATA_MODEL_GAPS.md) | Schema vs. design document gaps |
+| [SECURITY_ISSUES.md](2026-07-26/SECURITY_ISSUES.md) | Auth, authorization, and security findings |
+| [DESIGN_INCONSISTENCIES.md](2026-07-26/DESIGN_INCONSISTENCIES.md) | Philosophical/UX mismatches |
+| [TEST_COVERAGE_GAPS.md](2026-07-26/TEST_COVERAGE_GAPS.md) | Test plan vs. implementation gaps |
+| [DEPLOYMENT_CONFIG_ISSUES.md](2026-07-26/DEPLOYMENT_CONFIG_ISSUES.md) | Railway, preDeploy, and config risks |
+| [DOCUMENTATION_GAPS.md](2026-07-26/DOCUMENTATION_GAPS.md) | Inconsistencies across docs and code |
+| [RECOMMENDED_ROADMAP.md](2026-07-26/RECOMMENDED_ROADMAP.md) | Prioritized fix plan |
+
+> Future audits should be placed in sibling date folders (e.g., `docs/audit-report/2026-08-15/`).
 
 ---
 
