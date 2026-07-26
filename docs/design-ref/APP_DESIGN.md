@@ -1,4 +1,12 @@
-# Corsair Academy — Technical Design & Architecture
+# ⚠️ DEPRECATED — See `docs/` for current documentation
+
+> This file is the original design spec from project inception. It is kept for historical reference only.
+> The as-built application has diverged significantly. See `docs/CLAUDE.md` and `TODO.md` for current state.
+> Last meaningful update: July 26, 2026 (v3.0.0)
+
+---
+
+# Corsair Academy — Technical Design & Architecture (Historical)
 
 **Last Updated:** July 26, 2026 (v3.0.0 — Split-panel Curriculum Manager + AI grilling + AIContext)
 **Code Name:** "Corsair Academy"

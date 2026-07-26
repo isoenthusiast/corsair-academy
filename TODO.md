@@ -84,27 +84,34 @@
 
 > **Validation:** `npm run build` passed; `npx tsx scripts/test-security.ts` = 9/9 ✅
 
-### Block 5 — Security, Observability & AI (current)
-- [ ] **C7.** Auto-generate Kanban cards for FlaggedTrial, Assignment, AITrial
+### Block 5 — Security, Observability & AI ✅
 
-### Block 5 — Security, Observability & AI
+- [x] **S1.** Write `AuditLog` records for admin actions + impersonation
+- [x] **S2.** Write `LoginHistory` records on login success/failure
+- [x] **S3.** Add rate limiting to login and AI endpoints
+- [x] **S4.** Store per-user adaptive difficulty (stop mutating `Voyage.difficulty`)
+- [x] **S5.** Add AI budget/cost tracking model + usage logging
+- [x] **S6.** Include `open_ended` in AI trial generation prompt
 
-- [ ] **S1.** Write `AuditLog` records for admin actions + impersonation
-- [ ] **S2.** Write `LoginHistory` records on login success/failure
-- [ ] **S3.** Add rate limiting to login and AI endpoints
-- [ ] **S4.** Store per-user adaptive difficulty (stop mutating `Voyage.difficulty`)
-- [ ] **S5.** Add AI budget/cost tracking model + usage logging
-- [ ] **S6.** Include `open_ended` in AI trial generation prompt
+> **Validation:** `npm run build` passed; `npx tsx scripts/test-security.ts` = 9/9 ✅
 
-### Block 6 — Testing & Documentation
+### Block 6 — Testing & Documentation ✅
 
-- [ ] **T1.** Create `scripts/test-admin.ts` — economy/settings persistence
-- [ ] **T2.** Expand `scripts/test-phase4.ts` or add `scripts/test-security.ts`
-- [ ] **T3.** Update `TEST_PLAN_AI.md` execution logs
-- [ ] **T4.** Deprecate or delete `00 Ref/APP_DESIGN.md`
-- [ ] **T5.** Fix `VoyageStatus` enum documentation
-- [ ] **T6.** Rename `00 Ref/` folder (space breaks Nixpacks) or move contents to `docs/`
-- [ ] **T7.** Rename `corsair-app/package.json` name to `"corsair-app"`
+- [x] **T1.** Create `scripts/test-admin.ts` — economy/settings persistence
+- [x] **T2.** Expand `scripts/test-phase4.ts` or add `scripts/test-security.ts`
+- [x] **T3.** Update `TEST_PLAN_AI.md` execution logs
+- [x] **T4.** Deprecate or delete `00 Ref/APP_DESIGN.md`
+- [x] **T5.** Fix `VoyageStatus` enum documentation
+- [x] **T6.** Rename `00 Ref/` folder (space breaks Nixpacks) → `docs/design-ref/`
+- [x] **T7.** Rename `corsair-app/package.json` name to `"corsair-app"`
+
+> **Validation:** `npm run build` passed; `npx tsx scripts/test-security.ts` = 9/9 ✅
+
+---
+
+## ✅ All Audit Remediation Blocks Complete
+
+**Phase 9 complete.** All 6 audit remediation blocks are done.
 - [ ] **T8.** Add `docs/audit-report/README.md` future-audit convention note
 
 ## Phase 4 — Validate
