@@ -1,6 +1,6 @@
 # 🏴‍☠️ Corsair Academy — Master TODO
 
-**Last Updated:** 2026-07-26
+**Last Updated:** 2026-07-27
 
 ---
 
@@ -47,19 +47,19 @@
 
 > **Validation:** `npm run build` passed; `npx tsx scripts/test-security.ts` = 9/9 ✅
 
-### Block 2 — Core Economy & Settings (current)
+### Block 2 — Core Economy & Settings ✅
 
-### Block 2 — Core Economy & Settings
+- [x] **EC1.** Add `EconomySettings` model to Prisma schema
+- [x] **EC2.** Persist economy changes in `/api/admin/economy`
+- [x] **EC3.** Load economy settings in admin economy page + reward APIs
+- [x] **EC4.** Add `SystemSetting` model to Prisma schema
+- [x] **EC5.** Persist system settings in `/api/admin/settings`
+- [x] **EC6.** Enforce maintenance mode + feature flags in root layout
+- [x] **EC7.** Single source of truth for rank thresholds (use `EconomySettings`)
 
-- [ ] **EC1.** Add `EconomySettings` model to Prisma schema
-- [ ] **EC2.** Persist economy changes in `/api/admin/economy`
-- [ ] **EC3.** Load economy settings in admin economy page + reward APIs
-- [ ] **EC4.** Add `SystemSetting` model to Prisma schema
-- [ ] **EC5.** Persist system settings in `/api/admin/settings`
-- [ ] **EC6.** Enforce maintenance mode + feature flags in middleware/pages
-- [ ] **EC7.** Single source of truth for rank thresholds (use `EconomySettings`)
+> **Validation:** `npm run build` passed; `npx tsx scripts/test-security.ts` = 9/9 ✅
 
-### Block 3 — Gameplay Effects
+### Block 3 — Gameplay Effects (current)
 
 - [ ] **G1.** Implement sea charm consumption in trial player
 - [ ] **G2.** Whisper Scroll — reveal hint without skull penalty
