@@ -17,7 +17,7 @@
 - [x] **K7.** Docs updated — `APP_DESIGN.md` v2.8.0 + `ADMIN_PHILOSOPHY.md` + lessons
 - [x] **K8.** Commit & push — `feat(kanban): add Kanban Board with drag-and-drop, 4 columns, role-scoped API`
 
-## Phase 3 — Admin Polish (current)
+## Phase 3 — Admin Polish ✅
 >
 > Quick wins: fill remaining UI gaps. No dependencies between tasks.
 
@@ -25,6 +25,76 @@
 - [x] **A3.** System Announcements — Create/manage system-wide announcements UI
 - [x] **A4.** Invite Link Generation — Generate/view/revoke invite links UI (API exists)
 - [x] **A2.** Student Impersonation — "Log in as student" with HMAC token + banner
+
+## Phase 9 — Audit Remediation (current)
+>
+> Sequenced backlog from the 2026-07-26 audit. Complete each block before starting the next.
+
+### Block 1 — Pre-Deploy Hardening (must finish before next deploy)
+
+- [ ] **H1.** Remove `npx tsx prisma/seed.ts` from `railway.toml` preDeployCommand
+- [ ] **H2.** Enforce account status in `auth.ts` — reject `status !== "Active"` or `deletedAt !== null`
+- [ ] **H3.** Add forced password change flow — `/change-password` page + `mustChangePassword` enforcement
+- [ ] **H4.** Use session `userId` in `/api/trials/attempt` (remove body `userId`)
+- [ ] **H5.** Use session `userId` in `/api/shop/buy` (remove form `userId`)
+- [ ] **H6.** Use session `userId` in `/api/shop/buy-upgrade` (remove form `userId`)
+- [ ] **H7.** Use session `userId` in `/api/voyages/complete` (remove body `userId`)
+- [ ] **H8.** Add admin auth guards to `/api/admin/economy` and `/api/admin/settings`
+- [ ] **H9.** Prevent admin self-lockout in `/api/admin/users/update`
+- [ ] **H10.** Fix `/class/page.tsx` hardcoded redirect (use `/` or render Link)
+- [ ] **H11.** Run `npm run build` locally and fix all TS errors
+- [ ] **H12.** Add `scripts/test-security.ts` — verify userId isolation + status enforcement
+
+### Block 2 — Core Economy & Settings
+
+- [ ] **EC1.** Add `EconomySettings` model to Prisma schema
+- [ ] **EC2.** Persist economy changes in `/api/admin/economy`
+- [ ] **EC3.** Load economy settings in admin economy page + reward APIs
+- [ ] **EC4.** Add `SystemSetting` model to Prisma schema
+- [ ] **EC5.** Persist system settings in `/api/admin/settings`
+- [ ] **EC6.** Enforce maintenance mode + feature flags in middleware/pages
+- [ ] **EC7.** Single source of truth for rank thresholds (use `EconomySettings`)
+
+### Block 3 — Gameplay Effects
+
+- [ ] **G1.** Implement sea charm consumption in trial player
+- [ ] **G2.** Whisper Scroll — reveal hint without skull penalty
+- [ ] **G3.** Storm Pass — skip trial (no skulls, no penalty)
+- [ ] **G4.** Fortune Wind — double crowns from next trial (fix description from XP)
+- [ ] **G5.** Anchor Charm — freeze streak for 24h
+- [ ] **G6.** Implement ship upgrade effects in trial/complete reward APIs
+- [ ] **G7.** Captain's Gauntlet — 2× trial rewards
+- [ ] **G8.** Daily streak chest claim UI + API
+
+### Block 4 — Curriculum & Admin Polish
+
+- [ ] **C1.** Implement voyage branching/prerequisites on `/map` using `requiredVoyageId`
+- [ ] **C2.** Convert `Voyage.status` to `VoyageLifecycle` enum (`Draft/Published/Deprecated`)
+- [ ] **C3.** Trial version timeline UI + rollback API
+- [ ] **C4.** Teacher assignment creation UI on `/class/[id]`
+- [ ] **C5.** Teacher announcement creation UI on `/class/[id]`
+- [ ] **C6.** Student trial flagging button + `/api/trials/flag`
+- [ ] **C7.** Auto-generate Kanban cards for FlaggedTrial, Assignment, AITrial
+
+### Block 5 — Security, Observability & AI
+
+- [ ] **S1.** Write `AuditLog` records for admin actions + impersonation
+- [ ] **S2.** Write `LoginHistory` records on login success/failure
+- [ ] **S3.** Add rate limiting to login and AI endpoints
+- [ ] **S4.** Store per-user adaptive difficulty (stop mutating `Voyage.difficulty`)
+- [ ] **S5.** Add AI budget/cost tracking model + usage logging
+- [ ] **S6.** Include `open_ended` in AI trial generation prompt
+
+### Block 6 — Testing & Documentation
+
+- [ ] **T1.** Create `scripts/test-admin.ts` — economy/settings persistence
+- [ ] **T2.** Expand `scripts/test-phase4.ts` or add `scripts/test-security.ts`
+- [ ] **T3.** Update `TEST_PLAN_AI.md` execution logs
+- [ ] **T4.** Deprecate or delete `00 Ref/APP_DESIGN.md`
+- [ ] **T5.** Fix `VoyageStatus` enum documentation
+- [ ] **T6.** Rename `00 Ref/` folder (space breaks Nixpacks) or move contents to `docs/`
+- [ ] **T7.** Rename `corsair-app/package.json` name to `"corsair-app"`
+- [ ] **T8.** Add `docs/audit-report/README.md` future-audit convention note
 
 ## Phase 4 — Validate
 >
@@ -77,7 +147,7 @@
 
 ### Phase 1 — Core Platform
 
-- [x] Auth: Login, 4-role middleware, signout, JWT session
+- [~] Auth: Login, 4-role middleware, signout, JWT session — missing status/deletedAt/mustChangePassword enforcement
 - [x] Student: `/map`, `/voyage/[id]`, `/profile`, `/tavern`, `/ship`
 - [x] Teacher: `/class`, `/class/[id]`
 - [x] Parent: `/captain`
@@ -90,11 +160,11 @@
 - [x] Admin Users: list + edit + reset password + soft delete/restore
 - [x] Admin Classes: list + create + detail (teachers, students, stats)
 - [x] Admin Voyages: list grouped by sea + editor + trial editor with version history
-- [x] Admin Economy: crown rates, shop prices, upgrade costs, rank thresholds
+- [~] Admin Economy: crown rates, shop prices, upgrade costs, rank thresholds — UI exists, API is stub
 - [x] Admin Parents: student-parent linking with 2-parent limit
 - [x] Admin Analytics: stats, per-sea completion bars, recent activity
 - [x] Admin Moderation: flagged trial queue with approve/remove
-- [x] Admin Settings: app identity, maintenance mode, feature flags
+- [~] Admin Settings: app identity, maintenance mode, feature flags — UI exists, API is stub
 - [x] Admin Templates: curriculum bundles with apply-to-class
 - [x] Invite Accept: `/invite/[token]` with name/username/password form
 - [x] 24 API routes covering all features
