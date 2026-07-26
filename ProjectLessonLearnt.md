@@ -1,6 +1,6 @@
 # Project Lessons Learned — Corsair Academy & Associated Projects
 
-**Last Updated:** 2026-07-26 (Kanban feature built)
+**Last Updated:** 2026-07-26 (Login redirect fix: hardcoded route → middleware delegation)
 **Purpose:** Consolidated knowledge from all sessions. **Must be scanned before starting any new work.**
 
 ---
@@ -165,6 +165,7 @@
 - **`Crypto.randomUUID()`** for secure tokens — URL-safe, globally unique, no library needed
 - **Documentation audit as final phase**: after major feature phases, audit all docs for version numbers and feature completeness. Our docs were at v2.1.0 while app was at v2.7.0. ADMIN_PHILOSOPHY.md was missing Phase 3 features. AI_PHILOSOPHY.md still listed features as planned, not built. USER_PHILOSOPHY.md was missing impersonation flow
 - **CLAUDE.md**: used as agent instructions file — place in project root for AI agent context
+- **Middleware is the single source of truth for role-based routing**: All auth guards should `redirect("/")` (not `/map` or `/admin`). The middleware already maps role→home route in one place. Hardcoding a route in a page bypasses this and causes drift — e.g., admin login went to `/map` because `page.tsx` hardcoded `router.push("/map")` instead of `router.push("/")`. **Audit rule**: any `router.push` or `redirect` to a role-specific home page (`/map`, `/admin`, `/class`, `/captain`) is a bug. Always redirect to `/` and let middleware route. The one exception is post-action redirects to specific sub-pages (e.g., `redirect("/admin/users")` after creating a user).
 
 ---
 
