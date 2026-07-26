@@ -4,6 +4,19 @@
 
 ---
 
+## Phase 8 — Kanban Board ✅
+>
+> Admiral's task board for tracking work across the platform.
+
+- [x] **K1.** Prisma schema — `KanbanCard` model + `KanbanType`, `KanbanStatus`, `Priority` enums
+- [x] **K2.** API — GET (role-scoped, auto-archive 30d) + POST create manual Task + PATCH drag/status
+- [x] **K3.** Page — `/admin/kanban` server component + `KanbanBoard` client component
+- [x] **K4.** Drag-and-drop — native HTML5 DnD across 4 columns (Backlog→InProgress→Done→Archive)
+- [x] **K5.** 5-card pagination per column with "Show More"
+- [x] **K6.** Nav card on admin dashboard + test plan (`TEST_PLAN_KANBAN.md`)
+- [x] **K7.** Docs updated — `APP_DESIGN.md` v2.8.0 + `ADMIN_PHILOSOPHY.md` + lessons
+- [x] **K8.** Commit & push — `feat(kanban): add Kanban Board with drag-and-drop, 4 columns, role-scoped API`
+
 ## Phase 3 — Admin Polish (current)
 >
 > Quick wins: fill remaining UI gaps. No dependencies between tasks.

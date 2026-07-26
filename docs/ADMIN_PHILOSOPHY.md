@@ -1,6 +1,6 @@
 # Corsair Academy — Admin Design Philosophy
 
-**Last Updated:** July 26, 2026 (v2.6.0 — All admin features built & deployed)
+**Last Updated:** July 26, 2026 (v2.8.0 — Kanban Board added)
 **Related:** `GAME_PHILOSOPHY.md`, `LEARNING_PHILOSOPHY.md`, `APP_DESIGN.md`
 
 ---
@@ -401,7 +401,103 @@ Flagged AI-generated trial review queue at `/admin/moderation`:
 
 ---
 
-## 14. Anti-Patterns (Admin)
+## 14. Kanban Board
+
+**Route:** `/admin/kanban` — The Admiral's task board. A visual workflow for tracking everything that needs attention: flagged content, overdue assignments, AI-generated trials awaiting review, support requests, and manual tasks.
+
+### Philosophy
+
+- **One board, five card types** — not five separate queues. Unified view prevents orphaned work.
+- **Linear flow** — Backlog → InProgress → Done → Archive. No multi-column complexity.
+- **Auto + manual** — System creates cards for known events (flagged trial, overdue assignment). Admin/teachers create manual cards for everything else.
+- **Self-cleaning** — Done cards auto-archive after 30 days. Board stays focused.
+
+### Columns
+
+| Column | Purpose |
+|--------|---------|
+| **Backlog** | New cards needing triage. Default for all incoming. |
+| **InProgress** | Someone is working on this. Drag here when started. |
+| **Done** | Completed. Auto-archives after 30 days. |
+| **Archive** | Historical record. Read-only. |
+
+### Card Types
+
+| Type | Icon | Source | Example |
+|------|------|--------|---------|
+| **FlaggedTrial** | 🚩 | Auto (moderation queue) | "Trial #42 flagged for inappropriate content" |
+| **Assignment** | 📋 | Auto (overdue detection) | "Sally hasn't started Voyage 3 — 2 days overdue" |
+| **AITrial** | 🤖 | Auto (AI generation) | "3 AI trials generated for Sea of Whispers — review needed" |
+| **SupportTicket** | 🎫 | Manual or system | "Parent reports broken link on Map page" |
+| **Task** | 📝 | Manual | "Update curriculum for new school year" |
+
+### Access Control
+
+| Role | Sees | Can Create? | Can Edit? |
+|------|------|-------------|-----------|
+| **Admin** | All cards | ✅ All types | ✅ All cards |
+| **Teacher** | Cards for own students | ✅ Task + SupportTicket | ✅ Own cards |
+| **Parent** | Cards for linked children | ✅ Task + SupportTicket | ✅ Own cards |
+| **Student** | Nothing | ❌ | ❌ |
+
+### Drag-and-Drop
+
+- Native HTML5 drag-and-drop — no library dependency
+- Cards draggable between any two columns
+- Optimistic UI: card moves instantly, PATCH API confirms in background
+- On failure: card snaps back to original column
+
+### Pagination
+
+- 5 cards visible per column initially
+- "Show More" button expands to show all cards in column
+- Prevents scroll overload on boards with 50+ cards
+
+### Data Model
+
+```prisma
+model KanbanCard {
+  id          String       @id @default(uuid())
+  title       String
+  description String?
+  type        KanbanType   @default(Task)
+  status      KanbanStatus @default(Backlog)
+  priority    Priority     @default(Medium)
+  sourceTable String?      // polymorphic link: "Trial", "Assignment", etc.
+  sourceId    String?
+  assigneeId  String?      // who should handle this
+  creatorId   String?      // who created it
+  archivedAt  DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  assignee    User?        @relation("KanbanAssigned", fields: [assigneeId], references: [id])
+  creator     User?        @relation("KanbanCreated", fields: [creatorId], references: [id])
+}
+
+enum KanbanType   { FlaggedTrial Assignment AITrial SupportTicket Task }
+enum KanbanStatus { Backlog InProgress Done Archive }
+enum Priority     { Low Medium High }
+```
+
+### API Design
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/admin/kanban` | GET | List cards scoped by role; auto-archives Done>30d |
+| `/api/admin/kanban` | POST | Create manual Task card (title, description, priority, assignee) |
+| `/api/admin/kanban/[id]` | PATCH | Update status (drag), priority, assignee, description |
+
+### Future Auto-Creation Hooks
+
+These don't exist yet but are designed for:
+- `POST /api/trials/flag` → creates `FlaggedTrial` card
+- Assignment overdue check (cron) → creates `Assignment` card per overdue student
+- `POST /api/admin/voyages/[id]/generate-trials` → creates `AITrial` card for review
+
+---
+
+## 15. Anti-Patterns (Admin)
 
 - ❌ **Admin playing the game** — admin can view student pages but should not complete trials (muddies analytics)
 - ❌ **Direct DB manipulation** — all changes go through API routes with validation
