@@ -4,6 +4,7 @@
 **Auditor:** GitHub Copilot (Kimi K2.7 Code)  
 **Scope:** Full project audit comparing design philosophy, app design, and as-built application.  
 **Repositories:**
+
 - Code: `isoenthusiast/corsair-app`
 - Docs: `isoenthusiast/corsair-academy`
 - Production: `https://corsair-academy-production.up.railway.app`
@@ -86,23 +87,26 @@ This audit report is organized under `docs/audit-report/2026-07-26/`. The folder
 ## Immediate Actions Recommended
 
 ### Before Next Deploy
+
 1. Remove `npx tsx prisma/seed.ts` from `railway.toml` preDeployCommand.
 2. Fix `auth.ts` to reject users with `status !== "Active"` or `deletedAt !== null`.
 3. Replace client-supplied `userId` in `/api/trials/attempt`, `/api/shop/buy`, `/api/shop/buy-upgrade` with `session.user.id`.
 4. Add auth checks to `/api/admin/economy` and `/api/admin/settings`.
 
 ### Next Sprint
+
 5. Implement `EconomySettings` and `SystemSetting` models; persist economy/settings changes.
-6. Build daily streak chest claim UI + API.
-7. Apply sea charm effects and ship upgrade effects in trial/complete flows.
-8. Fix `/class/page.tsx` redirect to use middleware (redirect to `/` or convert to Link list).
-9. Start writing `AuditLog` records for admin actions and impersonation.
+2. Build daily streak chest claim UI + API.
+3. Apply sea charm effects and ship upgrade effects in trial/complete flows.
+4. Fix `/class/page.tsx` redirect to use middleware (redirect to `/` or convert to Link list).
+5. Start writing `AuditLog` records for admin actions and impersonation.
 
 ### Following Sprint
+
 10. Implement voyage branching/prerequisites on the map.
-11. Build trial version timeline/rollback UI and API.
-12. Add teacher assignment and announcement creation UI.
-13. Expand automated test coverage for admin, users, and AI features.
+2. Build trial version timeline/rollback UI and API.
+3. Add teacher assignment and announcement creation UI.
+4. Expand automated test coverage for admin, users, and AI features.
 
 ---
 

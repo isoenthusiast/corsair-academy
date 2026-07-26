@@ -26,7 +26,7 @@
 - [x] **A4.** Invite Link Generation — Generate/view/revoke invite links UI (API exists)
 - [x] **A2.** Student Impersonation — "Log in as student" with HMAC token + banner
 
-## Phase 9 — Audit Remediation (current)
+## Phase 9 — Audit Remediation ✅
 >
 > Sequenced backlog from the 2026-07-26 audit. Complete each block before starting the next.
 
@@ -112,7 +112,8 @@
 ## ✅ All Audit Remediation Blocks Complete
 
 **Phase 9 complete.** All 6 audit remediation blocks are done.
-- [ ] **T8.** Add `docs/audit-report/README.md` future-audit convention note
+
+- [x] **T8.** Add `docs/audit-report/README.md` future-audit convention note
 
 ## Phase 4 — Validate
 >
@@ -165,7 +166,7 @@
 
 ### Phase 1 — Core Platform
 
-- [~] Auth: Login, 4-role middleware, signout, JWT session — missing status/deletedAt/mustChangePassword enforcement
+- [x] Auth: Login, 4-role middleware, signout, JWT session — status/deletedAt/mustChangePassword enforced (Block 1)
 - [x] Student: `/map`, `/voyage/[id]`, `/profile`, `/tavern`, `/ship`
 - [x] Teacher: `/class`, `/class/[id]`
 - [x] Parent: `/captain`
