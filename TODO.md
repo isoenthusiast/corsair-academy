@@ -59,25 +59,32 @@
 
 > **Validation:** `npm run build` passed; `npx tsx scripts/test-security.ts` = 9/9 ✅
 
-### Block 3 — Gameplay Effects (current)
+### Block 3 — Gameplay Effects ✅
 
-- [ ] **G1.** Implement sea charm consumption in trial player
-- [ ] **G2.** Whisper Scroll — reveal hint without skull penalty
-- [ ] **G3.** Storm Pass — skip trial (no skulls, no penalty)
-- [ ] **G4.** Fortune Wind — double crowns from next trial (fix description from XP)
-- [ ] **G5.** Anchor Charm — freeze streak for 24h
-- [ ] **G6.** Implement ship upgrade effects in trial/complete reward APIs
-- [ ] **G7.** Captain's Gauntlet — 2× trial rewards
-- [ ] **G8.** Daily streak chest claim UI + API
+- [x] **G1.** Implement sea charm consumption in trial player
+- [x] **G2.** Whisper Scroll — reveal hint without skull penalty
+- [x] **G3.** Storm Pass — skip trial (no skulls, no penalty)
+- [x] **G4.** Fortune Wind — double crowns from next trial (fix description from XP)
+- [x] **G5.** Anchor Charm — freeze streak for 24h
+- [x] **G6.** Implement ship upgrade effects in trial/complete reward APIs
+- [x] **G7.** Captain's Gauntlet — 2× trial rewards
+- [x] **G8.** Daily streak chest claim UI + API
 
-### Block 4 — Curriculum & Admin Polish
+> **Validation:** `npm run build` passed; `npx tsx scripts/test-security.ts` = 9/9 ✅
 
-- [ ] **C1.** Implement voyage branching/prerequisites on `/map` using `requiredVoyageId`
-- [ ] **C2.** Convert `Voyage.status` to `VoyageLifecycle` enum (`Draft/Published/Deprecated`)
-- [ ] **C3.** Trial version timeline UI + rollback API
-- [ ] **C4.** Teacher assignment creation UI on `/class/[id]`
-- [ ] **C5.** Teacher announcement creation UI on `/class/[id]`
-- [ ] **C6.** Student trial flagging button + `/api/trials/flag`
+### Block 4 — Curriculum & Admin Polish ✅
+
+- [x] **C1.** Implement voyage branching/prerequisites on `/map` using `requiredVoyageId`
+- [x] **C2.** Convert `Voyage.status` to `VoyageLifecycle` enum (`Draft/Published/Deprecated`)
+- [x] **C3.** Trial version timeline + rollback API
+- [x] **C4.** Teacher assignment creation UI on `/class/[id]`
+- [x] **C5.** Teacher announcement creation UI on `/class/[id]`
+- [x] **C6.** Student trial flagging button + `/api/trials/flag`
+- [x] **C7.** Auto-generate Kanban cards for FlaggedTrial, Assignment, AITrial
+
+> **Validation:** `npm run build` passed; `npx tsx scripts/test-security.ts` = 9/9 ✅
+
+### Block 5 — Security, Observability & AI (current)
 - [ ] **C7.** Auto-generate Kanban cards for FlaggedTrial, Assignment, AITrial
 
 ### Block 5 — Security, Observability & AI
