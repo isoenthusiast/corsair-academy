@@ -4,3 +4,4 @@ corsair-app/
 node_modules/
 .next/
 *.tsbuildinfo
+src/
