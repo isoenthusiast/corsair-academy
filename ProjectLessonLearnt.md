@@ -1,6 +1,6 @@
 # Project Lessons Learned — Corsair Academy & Associated Projects
 
-**Last Updated:** 2026-07-26 (Login redirect fix: hardcoded route → middleware delegation)
+**Last Updated:** 2026-07-26 (Curriculum split-panel + AI grilling + AIContext built)
 **Purpose:** Consolidated knowledge from all sessions. **Must be scanned before starting any new work.**
 
 ---
@@ -8,6 +8,7 @@
 ## 🔴 Prisma & Database
 
 ### Schema Design
+
 - **Prisma 7 driver adapter** solves Windows ARM64 compatibility — pure JS, no native binary needed
 - **Prisma 7 requires**: `prisma.config.ts`, no `url` in datasource, `output` in generator, `@prisma/adapter-pg`
 - **Bidirectional relations mandatory** in Prisma 7 — adding `Assignment.voyage` requires `Voyage.assignments[]`
@@ -22,6 +23,7 @@
 - **Generated Prisma client should be committed** to repo — avoids needing `prisma generate` during Docker build
 
 ### Query Patterns
+
 - **Before writing Prisma queries**, verify field names with `grep_search` on `schema.prisma`
 - **Prisma `where` can't have two `OR` blocks** at same level — duplicate JS key. Filter one condition in JS or use raw SQL
 - **Never parallelize >10 raw DB queries** — exhausts connection pool. Use batch SQL or ANALYZE approach
@@ -32,6 +34,7 @@
 - **`ON CONFLICT DO NOTHING` needs a business-key unique constraint** — not just PK
 
 ### Migrations & sync-schema.ts
+
 - **sync-schema.ts runs on EVERY deploy** — audit for destructive INSERT/UPDATE/DELETE
 - **Only DDL allowed in deploy scripts**: CREATE/ALTER/DROP TABLE/COLUMN/INDEX. Never INSERT backfills
 - **sync-schema.ts must stay in sync** with Prisma schema unique constraints — ON CONFLICT clauses break on schema changes
@@ -42,6 +45,7 @@
 ## 🔵 TypeScript & JSX
 
 ### JSX Patterns
+
 - **Sibling elements in conditionals need fragment wrapper**: `{cond && (<> <A/> <B/> </>)}`
 - **Ternary in template literals needs parentheses**: `style={{ width: \`${progress ? (x)*100 : 0}%\` }}`
 - **JSX ternary closing braces**: `{cond ? <a/> : <b>{arr.map(x => (<c/>))}</b>}` — count your `{` and `}`
@@ -52,6 +56,7 @@
 - **Deeply nested files**: prefer `confirm()`/`alert()` over React modals when JSX insertion risks parse tree breakage
 
 ### TypeScript Fixes
+
 - **Never trust Turbopack's type checking** — always `npm run build` before pushing (catches errors Turbopack skips)
 - **`Object.values()` returns `unknown[]`** — cast to expected type
 - **Never use `{}` as a type** — use `Record<string, string>` or `object`
@@ -63,6 +68,7 @@
 ## 🟢 Next.js & NextAuth
 
 ### Auth
+
 - **NextAuth v5 JWT strategy**: split `auth.config.ts` (Edge-safe, no Prisma) vs `auth.ts` (full with Prisma)
 - **Auth route needs `runtime = "nodejs"`** — Prisma 7 client uses Node APIs not available on Edge
 - **Middleware role routing**: explicit home-route mapping for all 4 roles (Student→/map, Teacher→/class, etc.)
@@ -71,6 +77,7 @@
 - **Impersonation**: HMAC-signed tokens with 60s expiry, `_impersonate_` special credentials, `impersonatedBy` in JWT
 
 ### Routing & Pages
+
 - **Turbopack caches aggressively** — delete `.next/` when imports/routes appear broken
 - **Dynamic route slugs must be consistent** across nested routes (`[id]` not `[voyageId]`)
 - **Stale route compilation**: touch the file to force Turbopack recompilation if route returns 404
@@ -81,6 +88,7 @@
 ## 🟡 Railway & Deployment
 
 ### Build & Deploy
+
 - **Always run `npm run build` locally before pushing** — catches TS errors Railway will reject
 - **`engines.node` in `package.json`** forces Nixpacks to use correct Node version (Prisma 7 needs 22+)
 - **`railway.toml`**: set `[nixpacks] providers = ["nodejs_22"]` explicitly
@@ -91,6 +99,7 @@
 - **`.dockerignore` is essential**: exclude `.env` to prevent Nixpacks from injecting secrets as Docker ARG/ENV
 
 ### Security
+
 - **Never expose secrets in Docker ARG/ENV**: Nixpacks reads `.env` and creates ARG/ENV for each variable — these are visible in image layers forever
 - **`.env` must be in `.gitignore`** AND `.dockerignore` — gitignore prevents commits, dockerignore prevents build injection
 - **Set production secrets in Railway Dashboard → Variables**, not in repo files
@@ -104,6 +113,7 @@
 ## 🟣 AI & DeepSeek
 
 ### API Integration
+
 - **DeepSeek API is OpenAI-compatible** — standard `fetch` to `/v1/chat/completions` with Bearer token
 - **System prompt design**: define role, output format, field descriptions, explicit rules
 - **JSON mode**: instruct "Return ONLY valid JSON. No markdown, no code fences." Parse defensively (strip ```json)
@@ -117,6 +127,7 @@
 ## 🟠 PowerShell & Tooling
 
 ### PowerShell
+
 - **Bracket escaping**: use `-LiteralPath` for paths with `[` `]` (PowerShell treats them as glob patterns)
 - **Python `-c` broken in PowerShell** — always write `.py` files
 - **Multiline git commits hang** in PowerShell — use single-line messages
@@ -124,6 +135,7 @@
 - **Folder names with spaces break CI/CD**: Nixpacks, Docker, and shell scripts all choke on spaces. Use `kebab-case`, `snake_case`, or `CamelCase` only.
 
 ### VS Code & Terminal
+
 - **Terminal output frequently empty** with `mode=sync` — use VS Code tasks for output visibility
 - **Truncated output ≠ failure** — verify data state with lightweight read query before re-running
 - **Playwright `click_element` times out** in Turbopack dev — use `page.evaluate()` + `form.requestSubmit()`
@@ -134,6 +146,7 @@
 ## ⚪ Testing
 
 ### Test Infrastructure
+
 - **CookieJar class** for maintaining sessions across API test requests
 - **NextAuth testing**: CSRF → login → session cookie chain must be preserved
 - **Test `status < 400`** not `status === 200` — Next.js returns 304 for cached pages
@@ -146,6 +159,7 @@
 ## 📋 Kanban Board
 
 ### Design Decisions
+
 - **Single table over multiple types**: `KanbanCard` with `type` enum + polymorphic `sourceTable`/`sourceId` avoids table-per-card-type explosion. Same pattern as AttachmentMapping.
 - **Native HTML5 drag-and-drop**: `onDragStart`/`onDragOver`/`onDrop` with visual feedback. Zero dependencies, works in all modern browsers. Trade-off: no touch support (mobile/tablet).
 - **Auto-archive in GET, not cron**: Done cards >30 days are archived server-side on next GET request. Simpler than cron, but means archive timing depends on page visits.
@@ -154,10 +168,25 @@
 - **Prisma `@relation` naming for dual FK to User**: `assignee` (KanbanAssigned) and `creator` (KanbanCreated) both point to User. Without explicit relation names, Prisma would reject the ambiguous relation.
 
 ### Lessons
+
 - **Drag-and-drop state sync**: After `onDrop`, optimistic UI update (move card in local state), then PATCH API. If API fails, revert local state. Prevents UI lag.
 - **Enums need annotation in Prisma 7**: `@map("KanbanType")` on enum to match DB naming convention, or let Prisma auto-generate PascalCase. Our enums map to native Postgres enums for type safety.
 
+## 📋 Curriculum Manager
+
+### Design Decisions
+- **Split-panel over multi-page**: Single-page layout (left nav + right detail) eliminates 3 separate pages. Admin never loses context when switching between voyages.
+- **Modal trial editing over page navigation**: Trial edit in a modal keeps the admin on the same page. The old flow required navigating to a separate page and back.
+- **AI grilling over one-shot generation**: Multi-turn conversation before generating trials prevents misaligned output. Cheaper (v4-flash for chat, v4-pro for generation) and more precise.
+- **AIContext table for persistence**: Storing chat transcripts enables future features — AI can reference past conversations, audit what was generated and why.
+
+### Lessons
+- **JSON API over formData for modals**: The old `POST /api/admin/trials/update` used `formData()` + `redirect()`. Modal-based UIs need JSON request/response. Changed to accept JSON body and return `NextResponse.json({ trial })` instead of redirecting.
+- **Prisma bidirectional relations are mandatory in v7**: Adding `AIContext` required adding reverse relations to User, Voyage, and Sea models. Prisma 7 will not push schema without them.
+- **Turbopack caches generated Prisma client aggressively**: After schema changes, `.next/` must be deleted and `npx prisma generate` re-run. Hot reload does not pick up new models.
+
 ### Patterns
+
 - **Grill-with-docs before building**: settle specs in Q&A, capture in CONTEXT.md + ADRs
 - **One test plan per domain** (game mechanics, learning, AI), not per page
 - **Document relationships**: cross-reference between philosophy docs, APP_DESIGN.md as central hub
@@ -169,6 +198,6 @@
 
 ---
 
-> **Instructions:** This file is the single source of truth for all project lessons. 
+> **Instructions:** This file is the single source of truth for all project lessons.
 > Before starting any work, scan relevant sections. After fixing a mistake, add a new entry here.
 > Old individual lesson files in `/memories/` are superseded by this consolidated document.

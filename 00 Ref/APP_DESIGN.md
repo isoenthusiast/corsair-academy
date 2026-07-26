@@ -1,6 +1,6 @@
 # Corsair Academy — Technical Design & Architecture
 
-**Last Updated:** July 26, 2026 (v2.8.0 — Kanban Board added)
+**Last Updated:** July 26, 2026 (v3.0.0 — Split-panel Curriculum Manager + AI grilling + AIContext)
 **Code Name:** "Corsair Academy"
 **Stack:** Next.js 16 + Prisma 7 + PostgreSQL + NextAuth v5 + Tailwind CSS v3
 
@@ -482,4 +482,54 @@ model KanbanCard {
 enum KanbanType   { FlaggedTrial Assignment AITrial SupportTicket Task }
 enum KanbanStatus { Backlog InProgress Done Archive }
 enum Priority     { Low Medium High }
+```
+
+## 13. Curriculum Manager v3.0 — Split-Panel
+
+**Route:** `/admin/voyages` — Replaced with a split-panel layout. Left panel for navigation (collapsible seas → voyages), right panel for voyage details, trials, and AI-assisted trial generation.
+
+### Design
+
+| Decision | Rationale |
+|----------|-----------|
+| Split-panel (left nav + right detail) | Eliminates page navigation. Admin sees everything on one screen. |
+| Collapsible seas (accordion) | Scales to many seas without overwhelming the left panel. |
+| Trial edit modal (not separate page) | Keeps context — admin doesn't lose their place in the voyage. |
+| AI chat at bottom of right panel | Always visible when a voyage is selected. No floating button to discover. |
+| Multi-turn AI grilling before generation | AI asks clarifying questions about the admin's request. Prevents misaligned generations. |
+| AIContext table for chat persistence | Transcripts saved per-message; final generation creates summary record. Reusable across sessions. |
+
+### API Routes (New)
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/api/admin/voyages/[id]` | GET | Voyage detail with trials, sea, metadata, version counts |
+| `/api/admin/voyages/[id]/ai-chat` | POST | Multi-turn AI grilling — saves each message to AIContext, returns `readyToGenerate` when clear |
+| `/api/admin/ai-context` | GET | List past AI contexts filtered by appFeature, voyageId, seaId |
+| `/api/admin/ai-context` | POST | Create AIContext record manually |
+
+### AI Grilling Flow
+
+```
+Admin types prompt → AI asks clarifying questions → Admin answers → (repeat)
+→ Admin says "generate" → AI signals GENERATE_READY → Generate button appears
+→ Admin clicks Generate → Trials created via existing /generate-trials API
+→ Summary saved to AIContext (isFinal: true)
+```
+
+### AIContext Model
+
+```prisma
+model AIContext {
+  id         String           @id @default(cuid())
+  userId     String
+  content    String           // Markdown — transcript or summary
+  appFeature AIContextFeature // trials, voyages, seas, kanban, announcements
+  voyageId   String?          // Optional FK to Voyage
+  seaId      String?          // Optional FK to Sea
+  isFinal    Boolean          @default(false) // true = generation summary
+  createdAt  DateTime         @default(now())
+}
+
+enum AIContextFeature { trials voyages seas kanban announcements }
 ```

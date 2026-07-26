@@ -1,6 +1,6 @@
 # Corsair Academy — Admin Design Philosophy
 
-**Last Updated:** July 26, 2026 (v2.8.0 — Kanban Board added)
+**Last Updated:** July 26, 2026 (v3.0.0 — Split-panel curriculum + AI grilling)
 **Related:** `GAME_PHILOSOPHY.md`, `LEARNING_PHILOSOPHY.md`, `APP_DESIGN.md`
 
 ---
@@ -31,8 +31,7 @@ The Admin is the **system owner** — full visibility, full control. They manage
 | `/admin/invites` | Invite links — generate (role + expiry), copy URL, revoke | P2 |
 | `/admin/classes/new` | Create class — name, multi-teacher checkboxes | P1 |
 | `/admin/classes/[id]` | Class detail admin — teachers, student roster, stats | P2 |
-| `/admin/voyages/[id]/trials/[id]` | Trial editor — form, live preview, version history | P2 |
-| `/admin/voyages/[id]` | Voyage editor — metadata + trials + AI generate button | P2 |
+| `/admin/voyages` | Split-panel curriculum manager — left: collapsible seas/voyages nav; right: voyage detail, trials list with edit modals, AI grilling chat for trial generation | P0 (v3.0) |
 | `/admin/economy` | Economy panel — prices, rates, XP thresholds | P2 |
 | `/admin/parents` | Parent linking — search student, link parents, 2-parent limit | P1 |
 | `/admin/analytics` | Analytics suite — completion %, avg skulls, class comparison | P2 |
@@ -41,9 +40,17 @@ The Admin is the **system owner** — full visibility, full control. They manage
 | `/admin/templates` | Curriculum templates — create, edit, apply to class | P2 |
 
 ### Phase 3 Additions (July 26)
+
 - **Student Impersonation**: Admin can "Login as [student]" from user edit page. Uses HMAC-signed token with 60s expiry. Banner shows on all pages. "Return to Admiral" button restores admin session.
 - **System Announcements**: Create announcements with role targeting and expiry. Displayed as banner on student/teacher map pages.
 - **Invite Links**: Generate time-limited invite links by role. Copy URL to clipboard. Revoke unused links. Acceptance flow creates user with correct role + starting items.
+
+### Phase 8 Additions (July 26)
+
+- **Split-Panel Curriculum Manager** (`/admin/voyages`): Replaced 3 separate pages with a single split-panel view. Left panel: collapsible sea accordion showing voyages per sea. Right panel: voyage metadata header, trials list with modal editing (type, question, options, answer, explanation, hint, points), and an always-visible AI chat section at the bottom.
+- **AI Grilling Chat**: Multi-turn conversation with DeepSeek before generating trials. Admin describes what they want → AI asks clarifying questions → iterate until clear → AI signals `GENERATE_READY` → Generate button appears. All messages saved to `AIContext` table.
+- **AIContext Model**: Stores AI conversation transcripts and generation summaries. Searchable by `appFeature` (trials, voyages, seas, kanban, announcements). Linked optionally to voyage/sea via FK.
+- **Trial Update API Modernized**: Changed from `formData()` + `redirect()` to JSON request/response. Supports modal-based editing without page navigation. Still auto-saves TrialVersion history.
 
 ---
 
@@ -491,6 +498,7 @@ enum Priority     { Low Medium High }
 ### Future Auto-Creation Hooks
 
 These don't exist yet but are designed for:
+
 - `POST /api/trials/flag` → creates `FlaggedTrial` card
 - Assignment overdue check (cron) → creates `Assignment` card per overdue student
 - `POST /api/admin/voyages/[id]/generate-trials` → creates `AITrial` card for review

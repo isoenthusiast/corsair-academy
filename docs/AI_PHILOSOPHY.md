@@ -1,6 +1,6 @@
 # Corsair Academy — AI Design Philosophy
 
-**Last Updated:** July 26, 2026 (v2.6.0 — All 5 AI features built & deployed)
+**Last Updated:** July 26, 2026 (v3.0.0 — AI grilling chat + AIContext persistence added)
 **Models:** `deepseek-v4-pro` (generation, adaptation, personalization) + `deepseek-v4-flash` (tutoring, grading)
 **Related:** `ADMIN_PHILOSOPHY.md`, `LEARNING_PHILOSOPHY.md`
 
@@ -31,6 +31,7 @@ AI is the **silent crew member** — it generates, grades, tutors, and adapts. S
 | 🎯 Personalization | Rule-based (no AI) | Sea progress + avg skulls → recommendation | ✅ Built |
 
 **Implementation Summary (July 26):**
+
 - **Trial Generation**: `POST /api/admin/voyages/[id]/generate-trials` — structured prompt with voyage context → DeepSeek → validate → save. UI: GenerateTrialsButton with 3/5 count selector.
 - **Tutor Chat**: `POST /api/tutor/chat` — "Captain Corsair" persona, hints not answers. UI: floating 🦜 button → slide-out chat panel on voyage page.
 - **Grading**: `POST /api/trials/grade` — evaluates open-ended answers. Fallback on API error. Empty answers handled locally.
@@ -295,3 +296,58 @@ Difficulty resets per voyage
 - ❌ **Burning budget on idle** — no background AI tasks. All AI work is user-triggered.
 - ❌ **Sending PII to AI** — only trial content and anonymized student response goes to DeepSeek. No names, ages, or personal data.
 - ❌ **AI-generated content without pirate voice** — all prompts enforce pirate theming. Out-of-character output is filtered.
+---
+
+## 10. AI Grilling Chat (v3.0.0)
+
+**Route:** `/admin/voyages/[id]/ai-chat` — Multi-turn conversational AI for refining trial generation requests before execution.
+
+### Philosophy
+
+Instead of one-shot generation (old B1), the admin now has a conversation with the AI to clarify what they want. This prevents misaligned generations and reduces wasted API calls.
+
+### Flow
+
+```
+Admin: "Add more puzzle trials about fractions"
+  ↓
+AI: "Aye! A few questions: Should these replace existing trials or be added?
+     What difficulty level? Any specific pirate scenarios you'd like woven in?"
+  ↓
+Admin: "Add them after the existing ones. Difficulty 3. Use treasure division scenarios."
+  ↓
+AI: "Understood! 3 puzzle trials, difficulty 3, treasure division theme, 
+     appended after current trials. Ready to generate when you give the word."
+  ↓
+Admin: "generate"
+  ↓
+AI: "GENERATE_READY: 3 puzzle trials about fraction-based treasure division..."
+→ Generate button appears → Admin clicks → Trials created
+```
+
+### Technical Design
+
+- Uses DeepSeek v4-flash (fast, cheap) for the conversation
+- System prompt instructs AI to ask clarifying questions, not generate actual trials
+- AI signals readiness with `GENERATE_READY` prefix — client detects this and shows the Generate button
+- Each message exchange is stored in `AIContext` table as individual records (`isFinal: false`)
+- When generation completes, a summary record is created (`isFinal: true`)
+
+### AIContext Table
+
+Stores AI conversation transcripts for audit, reuse, and analysis:
+
+| Field | Purpose |
+|-------|---------|
+| `userId` | Who initiated the conversation |
+| `content` | Markdown transcript (e.g., `**User:** ... **AI:** ...`) |
+| `appFeature` | Context: trials, voyages, seas, kanban, announcements |
+| `voyageId` | Optional link to specific voyage |
+| `seaId` | Optional link to specific sea |
+| `isFinal` | `false` = individual message, `true` = generation summary |
+
+### Budget Impact
+
+- Chat messages use v4-flash (~$0.14/1M tokens input, ~$0.28/1M output) — very cheap
+- Typical grilling session: 4-6 messages totalling ~2K tokens ≈ $0.001
+- Trial generation still uses v4-pro for quality — unchanged from B1

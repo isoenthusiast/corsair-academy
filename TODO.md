@@ -47,7 +47,7 @@
 
 ## Phase 6 — Deploy (complete! 🚀)
 >
-> App is live at https://corsair-academy-production.up.railway.app
+> App is live at <https://corsair-academy-production.up.railway.app>
 
 - [x] **C1.** Railway CLI login (`railway login` — authenticated via browser)
 - [x] **C2.** Railway project link (`railway link` → stunning-friendship)
