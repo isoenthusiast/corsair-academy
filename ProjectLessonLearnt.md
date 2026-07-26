@@ -175,12 +175,14 @@
 ## 📋 Curriculum Manager
 
 ### Design Decisions
+
 - **Split-panel over multi-page**: Single-page layout (left nav + right detail) eliminates 3 separate pages. Admin never loses context when switching between voyages.
 - **Modal trial editing over page navigation**: Trial edit in a modal keeps the admin on the same page. The old flow required navigating to a separate page and back.
 - **AI grilling over one-shot generation**: Multi-turn conversation before generating trials prevents misaligned output. Cheaper (v4-flash for chat, v4-pro for generation) and more precise.
 - **AIContext table for persistence**: Storing chat transcripts enables future features — AI can reference past conversations, audit what was generated and why.
 
 ### Lessons
+
 - **JSON API over formData for modals**: The old `POST /api/admin/trials/update` used `formData()` + `redirect()`. Modal-based UIs need JSON request/response. Changed to accept JSON body and return `NextResponse.json({ trial })` instead of redirecting.
 - **Prisma bidirectional relations are mandatory in v7**: Adding `AIContext` required adding reverse relations to User, Voyage, and Sea models. Prisma 7 will not push schema without them.
 - **Turbopack caches generated Prisma client aggressively**: After schema changes, `.next/` must be deleted and `npx prisma generate` re-run. Hot reload does not pick up new models.
@@ -195,6 +197,25 @@
 - **Documentation audit as final phase**: after major feature phases, audit all docs for version numbers and feature completeness. Our docs were at v2.1.0 while app was at v2.7.0. ADMIN_PHILOSOPHY.md was missing Phase 3 features. AI_PHILOSOPHY.md still listed features as planned, not built. USER_PHILOSOPHY.md was missing impersonation flow
 - **CLAUDE.md**: used as agent instructions file — place in project root for AI agent context
 - **Middleware is the single source of truth for role-based routing**: All auth guards should `redirect("/")` (not `/map` or `/admin`). The middleware already maps role→home route in one place. Hardcoding a route in a page bypasses this and causes drift — e.g., admin login went to `/map` because `page.tsx` hardcoded `router.push("/map")` instead of `router.push("/")`. **Audit rule**: any `router.push` or `redirect` to a role-specific home page (`/map`, `/admin`, `/class`, `/captain`) is a bug. Always redirect to `/` and let middleware route. The one exception is post-action redirects to specific sub-pages (e.g., `redirect("/admin/users")` after creating a user).
+
+---
+
+## 📋 Audit & Documentation Hygiene
+
+- **Audit the entire project folder before major roadmap shifts**: Comparing `docs/` against `corsair-app/` revealed 27 feature gaps, 9 security issues, and multiple documentation inconsistencies that were not visible during feature-level work.
+- **TODO.md overstates completion**: Economy/settings UIs were marked complete despite having non-persistent stub APIs. Shop purchases (charms/upgrades) were marked complete despite having zero gameplay effect. Treat UI existence and API persistence as separate checklist items.
+- **Docs drift from code silently**: `VoyageStatus` enum semantics diverged between `Design Philosophy.md` (`Draft/Published/Deprecated`) and `schema.prisma` (`Locked/Available/InProgress/Completed/Mastered`). Use schema as source of truth and update docs immediately on enum changes.
+- **Stale reference docs cause confusion**: `00 Ref/APP_DESIGN.md` still used old terminology (`Learner`, `World`/`Quest`/`Challenge`) and pointed to the docs repo instead of the code repo. Archive or delete superseded docs.
+- **Folder names with spaces are a recurring hazard**: `00 Ref/` violates the existing lesson about Nixpacks space-in-path failures.
+
+---
+
+## 🔴 Security Lessons
+
+- **Auth `authorize()` must check status fields**: Returning a user after password validation without checking `status`, `mustChangePassword`, or `deletedAt` lets inactive/suspended/deleted users log in and bypass forced password changes.
+- **Never trust client-supplied `userId`**: `/api/trials/attempt`, `/api/shop/buy`, `/api/shop/buy-upgrade`, and `/api/voyages/complete` read `userId` from body/form. Always derive the actor from the session.
+- **Admin self-lockout is real**: Updating a user role without checking whether the target is the current session user or the last admin can lock the project out of the admin panel.
+- **Stub admin APIs still need auth checks**: Even non-persistent endpoints like `/api/admin/economy` and `/api/admin/settings` should reject non-admin callers before persistence is added.
 
 ---
 

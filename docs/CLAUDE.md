@@ -99,4 +99,3 @@ After the feature is built and tested:
 - **AI as tutor** — generates trials, grades answers, explains concepts, adapts difficulty.
 - **Parent visibility** — dashboard shows what's being learned, where they're stuck.
 - **Admin as Admiral** — full control of fleet: users, curriculum, economy, analytics.
-

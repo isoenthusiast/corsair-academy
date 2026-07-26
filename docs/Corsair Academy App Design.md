@@ -184,7 +184,7 @@
 | `/api/admin/ai-context` | GET | List past AI contexts |
 | `/api/admin/ai-context` | POST | Create AIContext record |
 
-### Admin API — Users, Classes, Economy, etc.
+### Admin API — Users, Classes, Economy, etc
 
 | Route | Method | Purpose |
 |-------|--------|---------|
@@ -300,6 +300,7 @@ git push → GitHub → Railway detects push → Nixpacks build → preDeployCom
 ### Test Plans
 
 Located in `docs/test-plans/`:
+
 - `TEST_PLAN.md` — General tests
 - `TEST_PLAN_LEARNING.md` — Learning tests
 - `TEST_PLAN_MULTIUSER.md` — Multi-user role tests
@@ -315,11 +316,13 @@ Located in `docs/test-plans/`:
 ## 10. Local Development
 
 ### Prerequisites
+
 - Node.js 22+
 - PostgreSQL 16 running on localhost:5432
 - Database: `gamified_learning`
 
 ### Setup
+
 ```bash
 cd corsair-app
 npm install

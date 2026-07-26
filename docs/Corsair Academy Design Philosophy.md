@@ -66,6 +66,7 @@ New students start with 50 🪙 and 3 Whisper Scrolls.
 ### Daily Streak Chests
 
 Students earn streak chests for consecutive days of completing at least 1 trial:
+
 - Day 1: 5 🪙
 - Day 3: 10 🪙 + 1 Whisper Scroll
 - Day 7: 25 🪙 + 1 Storm Pass
@@ -257,6 +258,7 @@ Named cross-sea collections. Teacher applies in one click. Example: "Pirate Star
 ### Admin Role — "Lord Admiral"
 
 **Commandments:**
+
 1. See everything — all users, classes, data. No scope limits.
 2. Control the curriculum — voyages/trials are shared. Admin manages source of truth.
 3. Manage the economy — crown rates, shop prices, rank XP thresholds.
@@ -386,6 +388,7 @@ Admin can adjust via `/admin/economy`:
 ## 9. Content Moderation
 
 Flagged AI-generated trial review at `/admin/moderation`:
+
 - Sorted by flag count (most flagged first)
 - Actions: Approve, Edit, Remove
 - Auto-removal: 3+ flags → auto-remove
